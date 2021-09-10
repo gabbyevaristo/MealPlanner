@@ -1,0 +1,38 @@
+.navbar {
+    display: flex;
+    padding: 18px 30px;
+    align-items: center;
+}
+
+.navbar .nav-links {
+    margin-left: auto;
+    font-size: 15px;
+}
+
+.navbar .nav-link {
+    margin: 0px 18px;
+    text-decoration: none;
+    color: #000;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-flex;
+}
+
+nav ul .nav-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #000;
+    transition: width 0.3s;
+}
+
+nav ul .nav-link:hover::after {
+    width: 100%;
+    transition: width 0.3s;
+}

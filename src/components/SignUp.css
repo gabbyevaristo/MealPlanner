@@ -1,0 +1,82 @@
+.container-sign-up {
+    display: flex;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #deebdd;
+    background-image: linear-gradient(
+        135deg,
+        #deebdd 0%,
+        var(--color-gradient) 74%
+    );
+}
+
+.card-sign-up {
+    max-width: 400px;
+    background-color: #f1f1f1;
+    padding: 25px 50px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-sign-up .title-sign-up {
+    font-size: 20px;
+    padding: 12px 0px;
+    letter-spacing: 1px;
+    text-decoration: underline;
+    text-underline-offset: 0.5em;
+}
+
+.card-sign-up form .user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+form .user-details .input-box {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.user-details .input-box .labels-sign-up {
+    font-size: 16px;
+}
+
+.user-details .input-box input {
+    height: 30px;
+    width: 100%;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+form .btn-sign-up {
+    height: 75px;
+    padding: 20px 0;
+}
+
+.btn-sign-up button {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    border: none;
+    background-color: var(--color-green);
+    color: #fff;
+    font-size: 15px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0);
+    transition: ease-out 0.3s;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-sign-up button:hover {
+    box-shadow: inset 300px 0 0 0 rgba(0, 0, 0);
+}
