@@ -1,28 +1,51 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { useState, useEffect, createContext } from 'react';
 import './App.css';
-import Home from './components/Home';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import Profile from './components/Profile';
+import Header from './components/BasicComponents/Header';
+import LandingPage from './components/LandingPage/LandingPage';
+import UnauthenticatedRoute from './components/UnauthenticatedRoute';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
+
+export const UserContext = createContext();
 
 function App() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem('user');
+        if (loggedInUser) {
+            setUser(loggedInUser);
+        }
+    }, []);
+
+    const handleSignIn = (user) => {
+        setUser(user);
+    };
+
+    const handleSignOut = (user) => {
+        setUser(null);
+        localStorage.clear();
+    };
+
     return (
-        <Router>
+        <UserContext.Provider value={user}>
+            <Header handleSignOut={handleSignOut} />
+            <Route path="/" exact>
+                <LandingPage />
+            </Route>
             <Switch>
-                <Route path="/" exact>
-                    <Home />
-                </Route>
-                <Route path="/sign-in">
-                    <SignIn />
-                </Route>
-                <Route path="/sign-up">
-                    <SignUp />
-                </Route>
-                <Route path="/profile">
-                    <Profile />
-                </Route>
+                <Route
+                    path="/auth"
+                    render={(props) => (
+                        <UnauthenticatedRoute handleSignIn={handleSignIn} />
+                    )}
+                />
+                <Route
+                    path="/home"
+                    render={(props) => <AuthenticatedRoute />}
+                />
             </Switch>
-        </Router>
+        </UserContext.Provider>
     );
 }
 

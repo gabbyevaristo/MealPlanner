@@ -1,4 +1,4 @@
-.container-sign-in {
+.sign-in {
     display: flex;
     height: 90vh;
     justify-content: center;
@@ -12,7 +12,7 @@
     );
 }
 
-.card-sign-in {
+.sign-in-card {
     max-width: 400px;
     background-color: #f1f1f1;
     padding: 25px 50px;
@@ -20,7 +20,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
-.card-sign-in .title-sign-in {
+.sign-in-card .sign-in-title {
     font-size: 20px;
     padding: 12px 0px;
     letter-spacing: 1px;
@@ -28,7 +28,7 @@
     text-underline-offset: 0.5em;
 }
 
-.card-sign-in form .user-info {
+.sign-in-card form .user-info {
     display: flex;
     flex-direction: column;
 }
@@ -36,10 +36,6 @@
 form .user-info .user-info-box {
     width: 100%;
     margin: 10px 0;
-}
-
-.user-info .user-info-box .labels-sign-in {
-    font-size: 16px;
 }
 
 .user-info .user-info-box input {
@@ -81,7 +77,7 @@ form .btn-sign-in {
     box-shadow: inset 300px 0 0 0 rgba(0, 0, 0);
 }
 
-.error {
+.error-sign-in {
     font-size: 13px;
     color: var(--color-error);
 }

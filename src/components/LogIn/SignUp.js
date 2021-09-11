@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import Header from './Header.js';
+import { useHistory } from 'react-router-dom';
 import './SignUp.css';
 
-const SignUp = () => {
+const SignUp = ({ handleSignIn }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
+    const [arePasswordsEqual, setArePasswordsEqual] = useState(true);
+    const [isValidEmail, setIsValidEmail] = useState(true);
+    const history = useHistory();
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -26,30 +29,55 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:5000/users/registerUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, password }),
-        });
-        if (res.ok) {
-            console.log('User registered!');
-        } else {
-            console.log('User not registered');
+        try {
+            const res = await fetch(
+                'http://localhost:5000/users/registerUser',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        confirmedPassword,
+                    }),
+                }
+            );
+            const data = await res.json();
+            if (res.ok) {
+                const signedInUser = data.msg;
+                localStorage.setItem('user', signedInUser);
+                handleSignIn(signedInUser);
+                history.push('/home');
+            } else {
+                if (data.msg === 'EMAIL_EXISTS') {
+                    setIsValidEmail(false);
+                    setArePasswordsEqual(true);
+                    setPassword('');
+                    setConfirmedPassword('');
+                } else if (data.msg === 'MISMATCHED_PWDS') {
+                    setIsValidEmail(true);
+                    setArePasswordsEqual(false);
+                    setPassword('');
+                    setConfirmedPassword('');
+                }
+            }
+        } catch (err) {
+            console.log('Server error');
         }
     };
 
     return (
         <div>
-            <Header />
-            <div className="container-sign-up">
-                <div className="card-sign-up">
-                    <div className="title-sign-up">Sign Up</div>
+            <div className="sign-up">
+                <div className="sign-up-card">
+                    <div className="sign-up-title">Sign Up</div>
                     <form onSubmit={handleSubmit}>
                         <div className="user-details">
-                            <div className="input-box">
-                                <span className="labels-sign-up">
+                            <div className="user-details-box">
+                                <span className="sign-up-labels">
                                     Full Name
                                 </span>
                                 <input
@@ -61,8 +89,8 @@ const SignUp = () => {
                                     required
                                 />
                             </div>
-                            <div className="input-box">
-                                <span className="labels-sign-up">Email</span>
+                            <div className="user-details-box">
+                                <span className="sign-up-labels">Email</span>
                                 <input
                                     type="email"
                                     name="email"
@@ -72,20 +100,20 @@ const SignUp = () => {
                                     required
                                 />
                             </div>
-                            <div className="input-box">
-                                <span className="labels-sign-up">Password</span>
+                            <div className="user-details-box">
+                                <span className="sign-up-labels">Password</span>
                                 <input
                                     type="password"
                                     name="password"
                                     value={password}
                                     onChange={handlePasswordChange}
                                     placeholder="Enter your password"
-                                    minlength="8"
+                                    minLength="8"
                                     required
                                 />
                             </div>
-                            <div className="input-box">
-                                <span className="labels-sign-up">
+                            <div className="user-details-box">
+                                <span className="sign-up-labels">
                                     Confirm Password
                                 </span>
                                 <input
@@ -94,11 +122,21 @@ const SignUp = () => {
                                     value={confirmedPassword}
                                     onChange={handleConfirmedPasswordChange}
                                     placeholder="Enter confirmed password"
-                                    minlength="8"
                                     required
                                 />
                             </div>
                         </div>
+                        {!isValidEmail ? (
+                            <div className="error-signup">
+                                Email already taken. Please try again.
+                            </div>
+                        ) : !arePasswordsEqual ? (
+                            <div className="error-sign-up">
+                                Passwords are not the same. Please try again.
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                         <div className="btn-sign-up">
                             <button type="submit" value="Register">
                                 Register

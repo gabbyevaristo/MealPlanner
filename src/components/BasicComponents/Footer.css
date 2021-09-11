@@ -6,12 +6,12 @@
     background-color: #f8f8f8;
 }
 
-.footer .links {
+.footer .footer-links {
     font-size: 16px;
     margin: 8px 100px;
 }
 
-.footer .link {
+.footer .footer-link {
     text-decoration: none;
     color: #000;
 }

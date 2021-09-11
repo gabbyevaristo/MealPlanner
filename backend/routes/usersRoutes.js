@@ -30,17 +30,20 @@ router.get('/getUser/:id', async (req, res) => {
 // Register a user
 router.post('/registerUser', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, confirmedPassword } = req.body;
         const user = await User.findOne({ email: email });
         if (user) {
-            if (user.email === email) {
-                throw new Error(`User with email: ${email} already exists`);
-            }
+            res.status(400).json({ msg: `EMAIL_EXISTS` });
+            return;
+        }
+        if (password !== confirmedPassword) {
+            res.status(400).json({ msg: 'MISMATCHED_PWDS' });
+            return;
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         const savedUser = await newUser.save();
-        res.json(savedUser);
+        res.json({ msg: savedUser._id.toString() });
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
@@ -54,7 +57,7 @@ router.post('/loginUser', async (req, res) => {
         if (user) {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
-                res.json({ msg: 'OK' });
+                res.json({ msg: user._id.toString() });
             } else {
                 throw new Error(`Wrong email or password`);
             }
