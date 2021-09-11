@@ -12,6 +12,10 @@ const Header = ({ handleSignOut }) => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     const signOut = () => {
         toggleMenu();
         handleSignOut();
@@ -19,13 +23,13 @@ const Header = ({ handleSignOut }) => {
 
     return (
         <nav className="navbar">
-            <Logo />
+            <Logo closeMenu={closeMenu} />
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
                 {!user && (
                     <>
                         <li>
                             <Link
-                                to="/sign-in"
+                                to="/auth/sign-in"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >
@@ -34,7 +38,7 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/sign-up"
+                                to="/auth/sign-up"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >
@@ -56,7 +60,7 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/pantry"
+                                to="/home/pantry"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >
@@ -65,7 +69,7 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/explore"
+                                to="/home/explore"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >
@@ -74,7 +78,7 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/savedRecipes"
+                                to="/home/savedRecipes"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >
@@ -83,7 +87,7 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/shoppingList"
+                                to="/home/shoppingList"
                                 className="nav-link"
                                 onClick={toggleMenu}
                             >

@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Hero.css';
+import { UserContext } from '../../App';
 
 const Hero = () => {
+    const user = useContext(UserContext);
+
     return (
         <div className="hero">
             <img
@@ -15,11 +19,13 @@ const Hero = () => {
                             Make the most of your pantry!
                         </div>
                     </div>
-                    <div className="hero-content">
-                        <Link to="/sign-up" className="btn-get-started">
-                            Get Started Now
-                        </Link>
-                    </div>
+                    {!user && (
+                        <div className="hero-content">
+                            <Link to="/sign-up" className="btn-get-started">
+                                Get Started Now
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

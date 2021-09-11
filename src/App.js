@@ -1,11 +1,10 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useState, useEffect, createContext } from 'react';
 import './App.css';
 import Header from './components/BasicComponents/Header';
 import LandingPage from './components/LandingPage/LandingPage';
-import SignIn from './components/LogIn/SignIn';
-import SignUp from './components/LogIn/SignUp';
-import Home from './components/Home/Home';
+import UnauthenticatedRoute from './components/UnauthenticatedRoute';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 
 export const UserContext = createContext();
 
@@ -24,7 +23,6 @@ function App() {
     };
 
     const handleSignOut = (user) => {
-        window.location.reload(true);
         setUser(null);
         localStorage.clear();
     };
@@ -35,15 +33,18 @@ function App() {
             <Route path="/" exact>
                 <LandingPage />
             </Route>
-            <Route path="/sign-in">
-                <SignIn handleSignIn={handleSignIn} />
-            </Route>
-            <Route path="/sign-up">
-                <SignUp handleSignIn={handleSignIn} />
-            </Route>
-            <Route path="/home">
-                <Home />
-            </Route>
+            <Switch>
+                <Route
+                    path="/auth"
+                    render={(props) => (
+                        <UnauthenticatedRoute handleSignIn={handleSignIn} />
+                    )}
+                />
+                <Route
+                    path="/home"
+                    render={(props) => <AuthenticatedRoute />}
+                />
+            </Switch>
         </UserContext.Provider>
     );
 }
