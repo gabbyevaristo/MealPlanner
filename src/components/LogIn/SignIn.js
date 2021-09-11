@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Header from './Header.js';
 import './SignIn.css';
 
-const SignIn = () => {
+const SignIn = ({ handleSignIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showError, setShowError] = useState(false);
+    const [isValid, setIsValid] = useState(true);
     const history = useHistory();
 
     const handleEmailChange = (e) => {
@@ -19,32 +18,38 @@ const SignIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:5000/users/loginUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
-        if (res.ok) {
-            history.push('/profile');
-        } else {
-            setShowError(true);
-            setEmail('');
-            setPassword('');
+        try {
+            const res = await fetch('http://localhost:5000/users/loginUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            if (res.ok) {
+                const data = await res.json();
+                const signedInUser = data.msg;
+                localStorage.setItem('user', signedInUser);
+                handleSignIn(signedInUser);
+                history.push('/home');
+            } else {
+                setIsValid(false);
+                setPassword('');
+            }
+        } catch (err) {
+            console.log('Server error');
         }
     };
 
     return (
         <div>
-            <Header />
-            <div className="container-sign-in">
-                <div className="card-sign-in">
-                    <div className="title-sign-in">Sign In</div>
+            <div className="sign-in">
+                <div className="sign-in-card">
+                    <div className="sign-in-title">Sign In</div>
                     <form onSubmit={handleSubmit}>
                         <div className="user-info">
                             <div className="user-info-box">
-                                <span className="labels-sign-in">Email</span>
+                                <span className="sign-in-labels">Email</span>
                                 <input
                                     type="email"
                                     name="email"
@@ -55,7 +60,7 @@ const SignIn = () => {
                                 />
                             </div>
                             <div className="user-info-box">
-                                <span className="labels-sign-in">Password</span>
+                                <span className="sign-in-labels">Password</span>
                                 <input
                                     type="password"
                                     name="password"
@@ -66,8 +71,8 @@ const SignIn = () => {
                                 />
                             </div>
                         </div>
-                        {showError && (
-                            <div className="error">
+                        {!isValid && (
+                            <div className="error-sign-in">
                                 Incorrect email and/or password. Please try
                                 again.
                             </div>

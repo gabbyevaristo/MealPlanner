@@ -1,4 +1,4 @@
-.container-sign-up {
+.sign-up {
     display: flex;
     height: 90vh;
     justify-content: center;
@@ -12,7 +12,7 @@
     );
 }
 
-.card-sign-up {
+.sign-up-card {
     max-width: 400px;
     background-color: #f1f1f1;
     padding: 25px 50px;
@@ -20,7 +20,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
-.card-sign-up .title-sign-up {
+.sign-up-card .sign-up-title {
     font-size: 20px;
     padding: 12px 0px;
     letter-spacing: 1px;
@@ -28,21 +28,17 @@
     text-underline-offset: 0.5em;
 }
 
-.card-sign-up form .user-details {
+.sign-up-card form .user-details {
     display: flex;
     flex-direction: column;
 }
 
-form .user-details .input-box {
+form .user-details .user-details-box {
     width: 100%;
     margin: 10px 0;
 }
 
-.user-details .input-box .labels-sign-up {
-    font-size: 16px;
-}
-
-.user-details .input-box input {
+.user-details .user-details-box input {
     height: 30px;
     width: 100%;
     outline: none;
@@ -79,4 +75,9 @@ form .btn-sign-up {
 
 .btn-sign-up button:hover {
     box-shadow: inset 300px 0 0 0 rgba(0, 0, 0);
+}
+
+.error-sign-up {
+    font-size: 13px;
+    color: var(--color-error);
 }

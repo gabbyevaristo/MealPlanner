@@ -1,8 +1,8 @@
 @media only screen and (max-width: 900px) {
-    .hero-container {
+    .hero {
         height: 76vh;
     }
-    .hero-content-container {
+    .hero-container {
         position: absolute;
         top: 8%;
         left: 10%;
@@ -10,21 +10,21 @@
 }
 
 @media only screen and (min-width: 900px) {
-    .hero-container {
+    .hero {
         height: 88vh;
     }
-    .hero-content-container {
+    .hero-container {
         position: absolute;
         top: 15%;
         left: 10%;
     }
 }
 
-.hero-container {
+.hero {
     position: relative;
 }
 
-.hero-container img {
+.hero img {
     height: 100%;
     width: 100%;
     opacity: 0.6;
