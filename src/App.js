@@ -1,10 +1,10 @@
-import { Route, Switch } from 'react-router-dom';
 import { useState, useEffect, createContext } from 'react';
-import './App.css';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/BasicComponents/Header';
 import LandingPage from './components/LandingPage/LandingPage';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
+import './App.css';
 
 export const UserContext = createContext();
 
@@ -29,8 +29,8 @@ function App() {
     };
 
     const handleSignOut = (user) => {
-        setUser(null);
         localStorage.clear();
+        setUser(null);
     };
 
     return (
@@ -42,16 +42,22 @@ function App() {
             <Switch>
                 <Route
                     path="/auth"
-                    render={(props) => (
-                        <UnauthenticatedRoute
-                            handleSignIn={handleSignIn}
-                            handleSignUp={handleSignUp}
-                        />
-                    )}
+                    render={(props) =>
+                        !user ? (
+                            <UnauthenticatedRoute
+                                handleSignIn={handleSignIn}
+                                handleSignUp={handleSignUp}
+                            />
+                        ) : (
+                            <Redirect to="/home" />
+                        )
+                    }
                 />
                 <Route
                     path="/home"
-                    render={(props) => <AuthenticatedRoute />}
+                    render={(props) =>
+                        user ? <AuthenticatedRoute /> : <Redirect to="/" />
+                    }
                 />
             </Switch>
         </UserContext.Provider>
