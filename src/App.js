@@ -1,22 +1,16 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, createContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/BasicComponents/Header';
 import LandingPage from './components/LandingPage/LandingPage';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
+import RouteNotFound from './components/BasicComponents/RouteNotFound';
 import './App.css';
 
 export const UserContext = createContext();
 
 function App() {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const loggedInUser = localStorage.getItem('user');
-        if (loggedInUser) {
-            setUser(loggedInUser);
-        }
-    }, []);
+    const [user, setUser] = useState(localStorage.getItem('user'));
 
     const handleSignIn = (user) => {
         localStorage.setItem('user', user);
@@ -36,10 +30,10 @@ function App() {
     return (
         <UserContext.Provider value={user}>
             <Header handleSignOut={handleSignOut} />
-            <Route path="/" exact>
-                <LandingPage />
-            </Route>
             <Switch>
+                <Route path="/" exact>
+                    <LandingPage />
+                </Route>
                 <Route
                     path="/auth"
                     render={(props) =>
@@ -59,6 +53,7 @@ function App() {
                         user ? <AuthenticatedRoute /> : <Redirect to="/" />
                     }
                 />
+                <Route component={RouteNotFound} />
             </Switch>
         </UserContext.Provider>
     );

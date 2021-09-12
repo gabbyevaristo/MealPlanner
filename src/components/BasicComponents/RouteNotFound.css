@@ -1,0 +1,28 @@
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 65vh;
+}
+
+.not-found-container img {
+    height: 8rem;
+    width: 8rem;
+}
+
+.not-found-container .not-found-text {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 100px;
+    text-align: center;
+}
+
+.not-found-text p {
+    padding-top: 12px;
+}
+
+.not-found-text .btn-go-home {
+    padding-top: 16px;
+    color: var(--color-green);
+}
