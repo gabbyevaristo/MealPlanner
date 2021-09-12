@@ -9,32 +9,37 @@ const Features = () => {
     }, []);
 
     return (
-        <div className="feature-cards">
-            <div className="feature-card-container">
-                <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-content">
-                        <h4>Breakfast, Lunch, or Dinner?</h4>
-                        Plan meals by dish types. Are you looking for breakfast,
-                        lunch or dinner? All of the above? We've got your
-                        covered!
+        <div className="features">
+            <div className="feature-title">Make the most of your pantry!</div>
+            <div className="feature-cards">
+                <div className="feature-card-container">
+                    <div className="feature-card" data-aos="zoom-in">
+                        <div className="feature-card-content">
+                            <h4>Breakfast, Lunch, or Dinner?</h4>
+                            By planning out your meals ahead of time, you'll
+                            spend less time going to the store. Less time at the
+                            store means less money you're.
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="feature-card-container">
-                <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-content">
-                        <h4>On a Budget?</h4>
-                        By planning out your meals ahead of time, you'll spend
-                        less time going to the store. Less time at the store
-                        means less money you're.
+                <div className="feature-card-container">
+                    <div className="feature-card" data-aos="zoom-in">
+                        <div className="feature-card-content">
+                            <h4>On a Budget?</h4>
+                            By planning out your meals ahead of time, you'll
+                            spend less time going to the store. Less time at the
+                            store means less money you're.
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="feature-card-container">
-                <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-content">
-                        <h4>Dietary Restrictions? No Problem!</h4>
-                        Tailor your recipes to your dietary needs.
+                <div className="feature-card-container">
+                    <div className="feature-card" data-aos="zoom-in">
+                        <div className="feature-card-content">
+                            <h4>Dietary Restrictions? No Problem!</h4>
+                            By planning out your meals ahead of time, you'll
+                            spend less time going to the store. Less time at the
+                            store means less money you're.
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,27 +1,15 @@
-@media only screen and (max-width: 900px) {
-    .hero {
-        height: 76vh;
-    }
-    .hero-container {
-        position: absolute;
-        top: 8%;
-        left: 10%;
-    }
-}
-
-@media only screen and (min-width: 900px) {
-    .hero {
-        height: 88vh;
-    }
-    .hero-container {
-        position: absolute;
-        top: 15%;
-        left: 10%;
-    }
+:root {
+    --btn-get-started-width: 180px;
 }
 
 .hero {
-    position: relative;
+    height: 86vh;
+}
+
+.hero-container {
+    position: absolute;
+    top: 16%;
+    left: 12%;
 }
 
 .hero img {
@@ -30,44 +18,80 @@
     opacity: 0.6;
 }
 
-.hero-content-box {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 15px;
-    max-width: 85%;
-}
-
 .hero-content {
-    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+    padding: 90px 20px;
 }
 
 .slogan {
-    color: #000;
+    padding-bottom: 40px;
     font-size: 60px;
-    font-weight: 800;
+    font-weight: 700;
+    color: #000;
+}
+
+@media only screen and (max-width: 900px) {
+    .hero {
+        height: 68vh;
+    }
+
+    .hero img {
+        height: 100%;
+        width: 900px;
+        opacity: 0.6;
+    }
+
+    .hero-container {
+        position: absolute;
+        top: 8%;
+        left: 10%;
+    }
+
+    .hero-content {
+        max-width: 80%;
+    }
+
+    .slogan {
+        font-size: 52px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .hero {
+        height: 68vh;
+    }
+
+    .hero-container {
+        top: 7%;
+    }
+
+    .hero-content {
+        max-width: 78%;
+    }
+
+    .slogan {
+        font-size: 43px;
+    }
 }
 
 .btn-get-started {
-    display: block;
-    width: 180px;
-    height: 60px;
-    text-align: center;
-    border: none;
-    background-color: var(--color-green);
-    color: #fff;
-    font-size: 17px;
-    border-radius: 6px;
-    box-shadow: inset 0 0 0 0 rgba(0, 0, 0);
-    transition: ease-out 0.3s;
-    cursor: pointer;
-    outline: none;
-    text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 60px;
+    width: var(--btn-get-started-width);
+    font-size: 17px;
+    background-color: var(--color-green);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0);
+    transition: ease-out 0.3s;
 }
 
 .btn-get-started:hover {
-    box-shadow: inset 180px 0 0 0 rgba(0, 0, 0);
+    box-shadow: inset var(--btn-get-started-width) 0 0 0 rgba(0, 0, 0);
 }

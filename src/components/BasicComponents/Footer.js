@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className="footer">
             <Logo />
-            <div>
+            <div className="footer-links-container">
                 <div className="footer-links">
                     <Link to="/about" className="footer-link">
                         About

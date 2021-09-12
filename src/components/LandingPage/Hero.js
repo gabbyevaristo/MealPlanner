@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import './Hero.css';
 import { UserContext } from '../../App';
+import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ closeMenu }) => {
     const user = useContext(UserContext);
 
     return (
@@ -13,18 +13,16 @@ const Hero = () => {
                 alt="hero"
             />
             <div className="hero-container">
-                <div className="hero-content-box">
-                    <div className="hero-content">
-                        <div className="slogan">
-                            Make the most of your pantry!
-                        </div>
-                    </div>
+                <div className="hero-content">
+                    <div className="slogan">Make the most of your pantry!</div>
                     {!user && (
-                        <div className="hero-content">
-                            <Link to="/sign-up" className="btn-get-started">
-                                Get Started Now
-                            </Link>
-                        </div>
+                        <Link
+                            to="/auth/sign-up"
+                            className="btn-get-started"
+                            onClick={closeMenu}
+                        >
+                            Get Started Now
+                        </Link>
                     )}
                 </div>
             </div>

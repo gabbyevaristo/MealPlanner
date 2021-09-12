@@ -19,6 +19,12 @@ function App() {
     }, []);
 
     const handleSignIn = (user) => {
+        localStorage.setItem('user', user);
+        setUser(user);
+    };
+
+    const handleSignUp = (user) => {
+        localStorage.setItem('user', user);
         setUser(user);
     };
 
@@ -37,7 +43,10 @@ function App() {
                 <Route
                     path="/auth"
                     render={(props) => (
-                        <UnauthenticatedRoute handleSignIn={handleSignIn} />
+                        <UnauthenticatedRoute
+                            handleSignIn={handleSignIn}
+                            handleSignUp={handleSignUp}
+                        />
                     )}
                 />
                 <Route

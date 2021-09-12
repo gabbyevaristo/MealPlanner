@@ -11,16 +11,16 @@ const AuthenticatedRoute = () => {
             <Route path="/home" exact>
                 <Home />
             </Route>
-            <Route path="/home/pantry">
+            <Route path="/home/pantry" exact>
                 <Pantry />
             </Route>
-            <Route path="/home/explore">
+            <Route path="/home/explore" exact>
                 <Explore />
             </Route>
-            <Route path="/home/savedRecipes">
+            <Route path="/home/saved-recipes" exact>
                 <SavedRecipes />
             </Route>
-            <Route path="/home/shoppingList">
+            <Route path="/home/shopping-list" exact>
                 <ShoppingList />
             </Route>
         </div>
