@@ -1,10 +1,8 @@
 .sign-up {
     display: flex;
-    height: 90vh;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    background-color: #deebdd;
+    height: 90vh;
     background-image: linear-gradient(
         135deg,
         #deebdd 0%,
@@ -13,39 +11,60 @@
 }
 
 .sign-up-card {
-    max-width: 400px;
-    background-color: #f1f1f1;
+    max-width: 420px;
     padding: 25px 50px;
+    background-color: #f1f1f1;
     border-radius: 6px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
+@media only screen and (max-width: 500px) {
+    .sign-up-card {
+        max-width: 600px;
+        border-radius: 0px;
+    }
+}
+
 .sign-up-card .sign-up-title {
+    padding: 13px 0px;
     font-size: 20px;
-    padding: 12px 0px;
     letter-spacing: 1px;
     text-decoration: underline;
     text-underline-offset: 0.5em;
 }
 
-.sign-up-card form .user-details {
+.sign-up-card form .sign-up-info {
     display: flex;
     flex-direction: column;
 }
 
-form .user-details .user-details-box {
-    width: 100%;
+form .sign-up-info .sign-up-info-box {
     margin: 10px 0;
 }
 
-.user-details .user-details-box input {
+.sign-up-info .sign-up-info-box input {
     height: 30px;
     width: 100%;
-    outline: none;
-    border-radius: 4px;
-    border: 1px solid #ccc;
     padding-left: 15px;
     font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.btn-sign-up button {
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    color: #fff;
+    background-color: var(--color-green);
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0);
+    transition: ease-out 0.3s;
 }
 
 form .btn-sign-up {
@@ -53,28 +72,8 @@ form .btn-sign-up {
     padding: 20px 0;
 }
 
-.btn-sign-up button {
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    border: none;
-    background-color: var(--color-green);
-    color: #fff;
-    font-size: 15px;
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 0 rgba(0, 0, 0);
-    transition: ease-out 0.3s;
-    cursor: pointer;
-    outline: none;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .btn-sign-up button:hover {
-    box-shadow: inset 300px 0 0 0 rgba(0, 0, 0);
+    box-shadow: inset 400px 0 0 0 rgba(0, 0, 0);
 }
 
 .error-sign-up {

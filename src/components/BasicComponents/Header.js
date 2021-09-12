@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom';
 import { useState, useContext } from 'react';
-import Logo from './Logo';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
+import Logo from './Logo';
 import './Header.css';
 
 const Header = ({ handleSignOut }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const user = useContext(UserContext);
 
     const toggleMenu = () => {
@@ -17,21 +18,21 @@ const Header = ({ handleSignOut }) => {
     };
 
     const signOut = () => {
-        toggleMenu();
+        closeMenu();
         handleSignOut();
     };
 
     return (
         <nav className="navbar">
             <Logo closeMenu={closeMenu} />
-            <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            <ul className={`nav-links ${isMenuOpen ? 'dropdown' : ''}`}>
                 {!user && (
                     <>
                         <li>
                             <Link
                                 to="/auth/sign-in"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Sign In
                             </Link>
@@ -40,7 +41,7 @@ const Header = ({ handleSignOut }) => {
                             <Link
                                 to="/auth/sign-up"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Sign Up
                             </Link>
@@ -53,7 +54,7 @@ const Header = ({ handleSignOut }) => {
                             <Link
                                 to="/home"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Home
                             </Link>
@@ -62,7 +63,7 @@ const Header = ({ handleSignOut }) => {
                             <Link
                                 to="/home/pantry"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 My Pantry
                             </Link>
@@ -71,25 +72,25 @@ const Header = ({ handleSignOut }) => {
                             <Link
                                 to="/home/explore"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Explore
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to="/home/savedRecipes"
+                                to="/home/saved-recipes"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Saved Recipes
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to="/home/shoppingList"
+                                to="/home/shopping-list"
                                 className="nav-link"
-                                onClick={toggleMenu}
+                                onClick={closeMenu}
                             >
                                 Shopping List
                             </Link>
@@ -103,9 +104,21 @@ const Header = ({ handleSignOut }) => {
                 )}
             </ul>
             <Link to="#" className="btn-dropdown" onClick={toggleMenu}>
-                <span className="bar"></span>
-                <span className="bar"></span>
-                <span className="bar"></span>
+                <span
+                    className={`dropdown-bar ${
+                        isMenuOpen ? 'dropdown-clicked' : ''
+                    }`}
+                ></span>
+                <span
+                    className={`dropdown-bar ${
+                        isMenuOpen ? 'dropdown-clicked' : ''
+                    }`}
+                ></span>
+                <span
+                    className={`dropdown-bar ${
+                        isMenuOpen ? 'dropdown-clicked' : ''
+                    }`}
+                ></span>
             </Link>
         </nav>
     );
