@@ -70,15 +70,6 @@ const Header = ({ handleSignOut }) => {
                         </li>
                         <li>
                             <Link
-                                to="/home/explore"
-                                className="nav-link"
-                                onClick={closeMenu}
-                            >
-                                Explore
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
                                 to="/home/saved-recipes"
                                 className="nav-link"
                                 onClick={closeMenu}

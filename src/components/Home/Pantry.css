@@ -1,0 +1,75 @@
+:root {
+    --ingredient-input-width: 370px;
+}
+
+.pantry {
+    padding: 30px 70px;
+    background-image: linear-gradient(
+        135deg,
+        #deebdd 0%,
+        var(--color-gradient-home) 74%
+    );
+}
+
+.pantry .ingredient-search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pantry .pantry-title {
+    padding-bottom: 30px;
+    font-size: 29px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.ingredient-input input {
+    height: 34px;
+    width: var(--ingredient-input-width);
+    padding-left: 15px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.ingredient-input.ingredient-input-borders input {
+    border-radius: 4px 4px 0 0;
+}
+
+.ingredient-matches-section {
+    height: 150px;
+}
+
+.ingredient-matches-container.ingredient-matches-exist {
+    width: var(--ingredient-input-width);
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    overflow: scroll;
+}
+
+.ingredient-matches-container .ingredient-match {
+    padding: 8px 6px;
+    background-color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.ingredient-matches-container .ingredient-match:hover {
+    background-color: #cdcdcd;
+}
+
+.ingredient-match .ingredient-match-name {
+    margin-left: 9px;
+}
+
+.pantry .pantry-items {
+    padding-top: 35px;
+}
+
+.pantry-items .pantry-items-container {
+    padding-top: 20px;
+    border-top: 2px solid #000;
+    background-color: #cdcdcd;
+}
