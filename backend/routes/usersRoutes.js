@@ -69,6 +69,17 @@ router.post('/loginUser', async (req, res) => {
     }
 });
 
+// Get user ingredients
+router.get('/getIngredients/:id', async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id });
+        const ingredients = Object.keys(user.ownedIngredients);
+        res.json(ingredients);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
 // Add to ingredients list
 router.put('/addIngredient/:id', async (req, res) => {
     try {
