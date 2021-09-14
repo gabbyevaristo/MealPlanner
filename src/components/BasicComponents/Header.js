@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
 import Logo from './Logo';
@@ -8,6 +8,20 @@ const Header = ({ handleSignOut }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const user = useContext(UserContext);
+    const wrapperRef = useRef(null);
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () =>
+            document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleClickOutside = (e) => {
+        const { current: wrap } = wrapperRef;
+        if (wrap && !wrap.contains(e.target)) {
+            setIsMenuOpen(false);
+        }
+    };
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -23,9 +37,12 @@ const Header = ({ handleSignOut }) => {
     };
 
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${user ? 'navbar-sticky' : ''}`}>
             <Logo closeMenu={closeMenu} />
-            <ul className={`nav-links ${isMenuOpen ? 'dropdown' : ''}`}>
+            <ul
+                ref={wrapperRef}
+                className={`nav-links ${isMenuOpen ? 'dropdown' : ''}`}
+            >
                 {!user && (
                     <>
                         <li>

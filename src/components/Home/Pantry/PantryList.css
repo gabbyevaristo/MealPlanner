@@ -1,0 +1,82 @@
+:root {
+    --ingredient-input-width: 400px;
+    --pantry-list-items-padding: 18px;
+}
+
+.pantry-list-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredient-input input {
+    height: 34px;
+    width: var(--ingredient-input-width);
+    padding-left: 15px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.ingredient-input.ingredient-input-borders input {
+    border-radius: 4px 4px 0 0;
+}
+
+/* .ingredient-matches-container, */
+.ingredient-matches {
+    height: 150px;
+}
+
+.ingredient-matches.ingredient-matches-exist {
+    width: var(--ingredient-input-width);
+    border-radius: 0px;
+    overflow: scroll;
+}
+
+.ingredient-matches .ingredient-match {
+    padding: 8px 6px;
+    background-color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.ingredient-matches .ingredient-match:hover {
+    background-color: #cdcdcd;
+}
+
+.ingredient-match .ingredient-match-name {
+    margin-left: 9px;
+}
+
+.pantry-list {
+    width: 450px;
+    padding-top: 40px;
+}
+
+/* .pantry-list .pantry-list-container {
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.7);
+} */
+
+@media only screen and (max-width: 500px) {
+    .pantry-list-section {
+        width: 100%;
+    }
+
+    .pantry-list-section .pantry-search {
+        width: 60%;
+    }
+
+    .ingredient-input input,
+    .ingredient-matches.ingredient-matches-exist {
+        width: 100%;
+    }
+
+    .pantry-list {
+        width: 100%;
+    }
+
+    .pantry-list .pantry-list-container {
+        box-shadow: none;
+    }
+}
