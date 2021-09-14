@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IngredientContext, UserContext } from '../../../App';
@@ -7,12 +8,11 @@ import './PantryList.css';
 
 toast.configure();
 
-const PantryList = () => {
+const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
     const [ingredientInput, setIngredientInput] = useState('');
     const [ingredientMatch, setIngredientMatch] = useState([]);
     const [areMatchesOpen, setAreMatchesOpen] = useState(false);
     const [pantry, setPantry] = useState([]);
-    const [checkedPantryItems, setCheckedPantryItems] = useState([]);
 
     const ingredients = useContext(IngredientContext);
     const user = useContext(UserContext);
@@ -140,17 +140,6 @@ const PantryList = () => {
         await removeIngredientFromDb(item);
     };
 
-    const handleCheckedItem = (item) => {
-        if (checkedPantryItems.includes(item)) {
-            const items = checkedPantryItems.filter(
-                (pantryItem) => pantryItem !== item
-            );
-            setCheckedPantryItems(items);
-        } else {
-            setCheckedPantryItems([...checkedPantryItems, item]);
-        }
-    };
-
     return (
         <div className="pantry-list-section">
             <ToastContainer limit={1} icon={false} />
@@ -200,6 +189,16 @@ const PantryList = () => {
                     )}
                 </div>
             </div>
+            {checkedPantryItems.length !== 0 && (
+                <div className="btn-filtered-recipes-container">
+                    <Link
+                        to="/home/filtered-recipes"
+                        className="btn-filtered-recipes"
+                    >
+                        Find Recipes With Selected Ingredients
+                    </Link>
+                </div>
+            )}
             <div className="pantry-list">
                 <div className="pantry-list-container">
                     {pantry.map((item, index) => {
