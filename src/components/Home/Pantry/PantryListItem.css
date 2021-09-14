@@ -1,0 +1,34 @@
+.pantry-list-item {
+    padding: 0 10px;
+    background-color: #fff;
+}
+
+.pantry-list-item .pantry-list-item-container {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-bottom: 1px solid #dedede;
+}
+
+.pantry-list-item .pantry-list-item-title {
+    padding-left: var(--pantry-list-items-padding);
+}
+
+.pantry-list-item .pantry-list-item-inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 80px;
+    margin-left: auto;
+    padding-right: var(--pantry-list-items-padding);
+}
+
+.pantry-list-item-inputs .pantry-list-item-btn {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.pantry-list-item-inputs input {
+    height: 24px;
+    width: 24px;
+}

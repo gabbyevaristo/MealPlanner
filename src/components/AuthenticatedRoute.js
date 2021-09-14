@@ -1,9 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import Home from './Home/Home';
-import Pantry from './Home/Pantry';
+import Pantry from './Home/Pantry/Pantry';
 import SavedRecipes from './Home/SavedRecipes';
 import ShoppingList from './Home/ShoppingList';
 import RouteNotFound from './BasicComponents/RouteNotFound';
+import Footer from './BasicComponents/Footer';
 
 const AuthenticatedRoute = () => {
     return (
@@ -23,6 +24,7 @@ const AuthenticatedRoute = () => {
                 </Route>
                 <Route component={RouteNotFound} />
             </Switch>
+            <Footer />
         </div>
     );
 };
