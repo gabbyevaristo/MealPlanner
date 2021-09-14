@@ -73,7 +73,7 @@ router.post('/random', async (req, res) => {
 });
 
 // Get recipes based on ingredients
-router.post('/random', async (req, res) => {
+router.post('/findByIngredients', async (req, res) => {
     try {
         const { ingredients, amount } = req.body;
         const recipes = await fetch(
