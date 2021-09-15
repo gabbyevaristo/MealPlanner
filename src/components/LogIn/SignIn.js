@@ -3,11 +3,11 @@ import { useHistory } from 'react-router-dom';
 import './SignIn.css';
 
 const SignIn = ({ handleSignIn }) => {
+    const history = useHistory();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isInfoValid, setIsInfoValid] = useState(true);
-
-    const history = useHistory();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -35,7 +35,7 @@ const SignIn = ({ handleSignIn }) => {
 
             if (res.ok) {
                 const data = await res.json();
-                const signedInUser = data.msg;
+                const signedInUser = data;
                 handleSignIn(signedInUser);
                 history.push('/home');
             } else {

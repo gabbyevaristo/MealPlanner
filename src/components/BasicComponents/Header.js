@@ -5,10 +5,10 @@ import Logo from './Logo';
 import './Header.css';
 
 const Header = ({ handleSignOut }) => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const user = useContext(UserContext);
     const wrapperRef = useRef(null);
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);

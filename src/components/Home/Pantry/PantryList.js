@@ -8,33 +8,16 @@ import './PantryList.css';
 
 toast.configure();
 
-const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
-    const [ingredientInput, setIngredientInput] = useState('');
-    const [ingredientMatch, setIngredientMatch] = useState([]);
-    const [areMatchesOpen, setAreMatchesOpen] = useState(false);
-    const [pantry, setPantry] = useState([]);
-
+const PantryList = () => {
     const ingredients = useContext(IngredientContext);
     const user = useContext(UserContext);
     const wrapperRef = useRef(null);
 
-    useEffect(() => {
-        try {
-            const loadUserIngredients = async () => {
-                const res = await fetch(
-                    `http://localhost:5000/users/getIngredients/${user}`,
-                    {
-                        method: 'GET',
-                    }
-                );
-                const data = await res.json();
-                setPantry(data);
-            };
-            loadUserIngredients();
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
+    const [ingredientInput, setIngredientInput] = useState('');
+    const [ingredientMatch, setIngredientMatch] = useState([]);
+    const [areMatchesOpen, setAreMatchesOpen] = useState(false);
+    const [checkedPantryItems, setCheckedPantryItems] = useState([]);
+    const [pantry, setPantry] = useState(Object.keys(user.ownedIngredients));
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -91,13 +74,16 @@ const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
 
     const addIngredientToDb = async (ingredient) => {
         try {
-            await fetch(`http://localhost:5000/users/addIngredient/${user}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ ingredient, quantity: 0 }),
-            });
+            await fetch(
+                `http://localhost:5000/users/addIngredient/${user.id}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ingredient, quantity: 0 }),
+                }
+            );
         } catch (err) {
             console.log(err);
         }
@@ -119,7 +105,7 @@ const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
     const removeIngredientFromDb = async (ingredient) => {
         try {
             await fetch(
-                `http://localhost:5000/users/deleteIngredient/${user}`,
+                `http://localhost:5000/users/deleteIngredient/${user.id}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -138,6 +124,17 @@ const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
         setPantry(items);
         notifyError(`${item} deleted from pantry`);
         await removeIngredientFromDb(item);
+    };
+
+    const handleCheckedItem = (item) => {
+        if (checkedPantryItems.includes(item)) {
+            const items = checkedPantryItems.filter(
+                (pantryItem) => pantryItem !== item
+            );
+            setCheckedPantryItems(items);
+        } else {
+            setCheckedPantryItems([...checkedPantryItems, item]);
+        }
     };
 
     return (
@@ -190,10 +187,10 @@ const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
                 </div>
             </div>
             {checkedPantryItems.length !== 0 && (
-                <div className="btn-filtered-recipes-container">
+                <div className="btn-to-filtered-recipes-container">
                     <Link
-                        to="/home/filtered-recipes"
-                        className="btn-filtered-recipes"
+                        to={`/home/filtered-recipes/${checkedPantryItems.join()}`}
+                        className="btn-to-filtered-recipes"
                     >
                         Find Recipes With Selected Ingredients
                     </Link>
@@ -201,16 +198,17 @@ const PantryList = ({ handleCheckedItem, checkedPantryItems }) => {
             )}
             <div className="pantry-list">
                 <div className="pantry-list-container">
-                    {pantry.map((item, index) => {
-                        return (
-                            <PantryListItem
-                                item={item}
-                                key={index}
-                                handleRemoveItem={handleRemoveItem}
-                                handleCheckedItem={handleCheckedItem}
-                            />
-                        );
-                    })}
+                    {pantry.length !== 0 &&
+                        pantry.map((item, index) => {
+                            return (
+                                <PantryListItem
+                                    item={item}
+                                    key={index}
+                                    handleRemoveItem={handleRemoveItem}
+                                    handleCheckedItem={handleCheckedItem}
+                                />
+                            );
+                        })}
                 </div>
             </div>
         </div>

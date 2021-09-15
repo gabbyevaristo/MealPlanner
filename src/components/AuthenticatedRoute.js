@@ -1,31 +1,14 @@
-import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from './Home/Home';
 import Pantry from './Home/Pantry/Pantry';
 import SavedRecipes from './Home/SavedRecipes';
 import ShoppingList from './Home/ShoppingList';
-import FilteredRecipes from './Home/Pantry/FilteredRecipes';
+import FilteredRecipes from './Home/Recipe/FilteredRecipes';
+import RecipePage from './Home/Recipe/RecipePage';
 import RouteNotFound from './BasicComponents/RouteNotFound';
 import Footer from './BasicComponents/Footer';
 
 const AuthenticatedRoute = () => {
-    const [checkedPantryItems, setCheckedPantryItems] = useState([]);
-
-    const handleCheckedItem = (item) => {
-        if (checkedPantryItems.includes(item)) {
-            const items = checkedPantryItems.filter(
-                (pantryItem) => pantryItem !== item
-            );
-            setCheckedPantryItems(items);
-        } else {
-            setCheckedPantryItems([...checkedPantryItems, item]);
-        }
-    };
-
-    const clearPantryItems = () => {
-        setCheckedPantryItems([]);
-    };
-
     return (
         <div>
             <Switch>
@@ -33,10 +16,7 @@ const AuthenticatedRoute = () => {
                     <Home />
                 </Route>
                 <Route path="/home/pantry" exact>
-                    <Pantry
-                        handleCheckedItem={handleCheckedItem}
-                        checkedPantryItems={checkedPantryItems}
-                    />
+                    <Pantry />
                 </Route>
                 <Route path="/home/saved-recipes" exact>
                     <SavedRecipes />
@@ -44,11 +24,11 @@ const AuthenticatedRoute = () => {
                 <Route path="/home/shopping-list" exact>
                     <ShoppingList />
                 </Route>
-                <Route path="/home/filtered-recipes" exact>
-                    <FilteredRecipes
-                        checkedPantryItems={checkedPantryItems}
-                        clearPantryItems={clearPantryItems}
-                    />
+                <Route path="/home/filtered-recipes/:selectedPantryItems">
+                    <FilteredRecipes />
+                </Route>
+                <Route path="/home/recipe/:recipeId">
+                    <RecipePage />
                 </Route>
                 <Route component={RouteNotFound} />
             </Switch>

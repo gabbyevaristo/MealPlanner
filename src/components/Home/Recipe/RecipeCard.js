@@ -1,42 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../../App';
+import './RecipeCard.css';
 
-const RecipeCard = ({ recipe: recipeMeta }) => {
-    const [recipe, setRecipe] = useState(null);
+const RecipeCard = ({ recipe }) => {
+    const user = useContext(UserContext);
 
-    /*
-    from recipeMeta:
-        - missedIngredients (ingredients in recipe you did not select / shopping list)
-        - usedIngredients (ingredients in recipe you did select - pantry)
-        - unusedIngredients (ingredients you selected that are not in recipe)
-    from recipe:
-        - vegetarian, vegan, glutenFree, dairyFree
-        - title, image
-        - servings, readyInMinutes, summary, instructions, analyzedInstructions
-        - extendedIngredients -> original (for list of ingredients)
-        - cuisines, dishTypes
-    */
-
-    useEffect(() => {
-        try {
-            const loadRecipe = async () => {
-                const res = await fetch(
-                    `http://localhost:5000/recipe/${recipeMeta.id}`,
-                    {
-                        method: 'GET',
-                    }
-                );
-                const data = await res.json();
-                setRecipe(data);
-            };
-            loadRecipe();
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
-
-    console.log(recipe);
-
-    return <div className="recipe-card">{recipe && recipe.title}</div>;
+    return (
+        <Link to={`/home/recipe/${recipe.id}`} className="recipe-card-link">
+            <div className="recipe-card">
+                {recipe && (
+                    <div className="recipe-card-container">
+                        {user && user.savedRecipes.includes(recipe.id) && (
+                            <div className="recipe-card-heart">
+                                <i className="fa fa-heart fa-3x"></i>
+                            </div>
+                        )}
+                        <div className="recipe-card-img">
+                            <img
+                                src={`${recipe.image}`}
+                                alt={`${recipe.title}-card-img`}
+                            />
+                        </div>
+                        <div className="recipe-card-title">
+                            <strong>{recipe.title}</strong>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </Link>
+    );
 };
 
 export default RecipeCard;

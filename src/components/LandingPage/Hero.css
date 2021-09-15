@@ -35,16 +35,14 @@
 @media only screen and (max-width: 900px) {
     .hero {
         height: 68vh;
+        overflow: hidden;
     }
 
     .hero img {
-        height: 100%;
         width: 900px;
-        opacity: 0.6;
     }
 
     .hero-container {
-        position: absolute;
         top: 8%;
         left: 10%;
     }

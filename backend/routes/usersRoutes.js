@@ -43,7 +43,12 @@ router.post('/registerUser', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         const savedUser = await newUser.save();
-        res.json({ msg: savedUser._id.toString() });
+        res.json({
+            id: user._id.toString(),
+            name: user.name,
+            savedRecipes: user.savedRecipes,
+            ownedIngredients: user.ownedIngredients,
+        });
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
@@ -57,7 +62,12 @@ router.post('/loginUser', async (req, res) => {
         if (user) {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
-                res.json({ msg: user._id.toString() });
+                res.json({
+                    id: user._id.toString(),
+                    name: user.name,
+                    savedRecipes: user.savedRecipes,
+                    ownedIngredients: user.ownedIngredients,
+                });
             } else {
                 throw new Error(`Wrong email or password`);
             }
@@ -140,6 +150,17 @@ router.put('/deleteIngredient/:id', async (req, res) => {
             }
         );
         res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
+// Get user's saved recipes
+router.get('/getRecipes/:id', async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id });
+        const savedRecipes = user.savedRecipes;
+        res.json(savedRecipes);
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }

@@ -11,7 +11,8 @@ export const IngredientContext = createContext();
 export const UserContext = createContext();
 
 function App() {
-    const [user, setUser] = useState(localStorage.getItem('user'));
+    const localUser = JSON.parse(localStorage.getItem('user')) || null;
+    const [user, setUser] = useState(localUser);
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ function App() {
     }, []);
 
     const handleSignIn = (user) => {
-        localStorage.setItem('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     };
 

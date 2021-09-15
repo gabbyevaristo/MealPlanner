@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import './SignUp.css';
 
 const SignUp = ({ handleSignUp }) => {
+    const history = useHistory();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [arePasswordsEqual, setArePasswordsEqual] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
-
-    const history = useHistory();
 
     const handleNameChange = (e) => {
         setName(e.target.value);
