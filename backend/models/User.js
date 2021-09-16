@@ -17,16 +17,16 @@ const UserSchema = new mongoose.Schema(
             required: [true, 'Password is required'],
         },
         ownedIngredients: {
-            type: Object,
-            default: {},
+            type: Array,
+            default: [],
         },
         savedRecipes: {
             type: Array,
             default: [],
         },
         shoppingList: {
-            type: Object,
-            default: {},
+            type: Array,
+            default: [],
         },
     },
     { minimize: false }

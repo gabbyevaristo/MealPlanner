@@ -14,7 +14,18 @@
 }
 
 .pantry-search {
-    padding-bottom: 30px;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.pantry-search.pantry-search-border-active:before {
+    content: '';
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    height: 1px;
+    width: 50%;
+    border-bottom: 3px solid #fff;
 }
 
 .ingredient-input input {
@@ -39,7 +50,7 @@
 
 .ingredient-matches.ingredient-matches-exist {
     width: var(--ingredient-input-width);
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-green);
     border-radius: 0px;
     overflow: scroll;
 }
@@ -66,7 +77,10 @@
 
 .pantry-list .pantry-list-container {
     padding-top: 5px;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pantry-list-container.pantry-list-container-active {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
 }
 
 .btn-to-filtered-recipes-container {
@@ -87,13 +101,13 @@
     outline: none;
     border: none;
     border-radius: 4px;
-    box-shadow: inset 0 0 0 0 #ddeeca;
+    box-shadow: inset 0 0 0 0 #e3f59c;
     transition: ease-out 0.3s;
 }
 
 .btn-to-filtered-recipes-container .btn-to-filtered-recipes:hover {
     color: #000;
-    box-shadow: inset 400px 0 0 0 #ddeeca;
+    box-shadow: inset 400px 0 0 0 #e3f59c;
 }
 
 @media only screen and (max-width: 500px) {

@@ -7,48 +7,65 @@ const SavedRecipes = () => {
     const user = useContext(UserContext);
 
     const [savedRecipes, setSavedRecipes] = useState([]);
-
-    // If I add something, I never update savedRecipes
+    const [savedRecipesObject, setSavedRecipesObject] = useState([]);
 
     useEffect(() => {
-        if (user.savedRecipes.length !== 0) {
-            try {
-                const loadSavedRecipes = async () => {
-                    const data = await Promise.all(
-                        user.savedRecipes.map(async (recipeId) => {
-                            const res = await fetch(
-                                `http://localhost:5000/recipe/${recipeId}`,
-                                {
-                                    method: 'GET',
-                                }
-                            );
-                            const recipe = await res.json();
-                            return recipe;
-                        })
-                    );
-                    console.log(user.savedRecipes);
-                    setSavedRecipes(data);
-                };
-                loadSavedRecipes();
-            } catch (err) {
-                console.log(err);
-            }
+        try {
+            const loadUserRecipes = async () => {
+                const res = await fetch(
+                    `http://localhost:5000/users/getRecipes/${user.id}`,
+                    {
+                        method: 'GET',
+                    }
+                );
+                const data = await res.json();
+                setSavedRecipes(data);
+            };
+            loadUserRecipes();
+        } catch (err) {
+            console.log(err);
         }
     }, []);
 
-    // console.log(savedRecipes);
+    // useEffect(() => {
+    //     if (savedRecipes.length !== 0) {
+    //         try {
+    //             const loadSavedRecipes = async () => {
+    //                 const data = await Promise.all(
+    //                     savedRecipes.map(async (recipeId) => {
+    //                         const res = await fetch(
+    //                             `http://localhost:5000/recipe/${recipeId}`,
+    //                             {
+    //                                 method: 'GET',
+    //                             }
+    //                         );
+    //                         const recipe = await res.json();
+    //                         return recipe;
+    //                     })
+    //                 );
+    //                 setSavedRecipesObject(data);
+    //             };
+    //             loadSavedRecipes();
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    // }, [savedRecipes]);
 
     return (
         <div className="saved-recipes">
             <div className="saved-recipes-title">
                 Saved <span>Recipes</span>
             </div>
-            {savedRecipes.length !== 0 && (
+            {savedRecipesObject.length !== 0 && (
                 <div className="saved-recipes-container">
-                    {savedRecipes.map((recipe, index) => {
+                    {savedRecipesObject.map((recipe, index) => {
                         return (
                             <div className="saved-recipe" key={index}>
-                                <RecipeCard recipe={recipe} />
+                                <RecipeCard
+                                    recipe={recipe}
+                                    inSavedRecipe={false}
+                                />
                             </div>
                         );
                     })}

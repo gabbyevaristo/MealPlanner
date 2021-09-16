@@ -1,9 +1,254 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+// import { useState, useEffect, useContext } from 'react';
+// import { useParams } from 'react-router';
+// import { UserContext } from '../../../App';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import './RecipePage.css';
+
+// toast.configure();
+
+// const RecipePage = () => {
+//     const user = useContext(UserContext);
+//     const { recipeId } = useParams();
+
+//     const [recipe, setRecipe] = useState(null);
+//     const [savedRecipes, setSavedRecipes] = useState([]);
+
+//     useEffect(() => {
+//         try {
+//             const loadRecipe = async () => {
+//                 const res = await fetch(
+//                     `http://localhost:5000/recipe/${recipeId}`,
+//                     {
+//                         method: 'GET',
+//                     }
+//                 );
+//                 const data = await res.json();
+//                 setRecipe(data);
+//             };
+//             loadRecipe();
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }, []);
+
+//     useEffect(() => {
+//         try {
+//             const loadUserRecipes = async () => {
+//                 const res = await fetch(
+//                     `http://localhost:5000/users/getRecipes/${user.id}`,
+//                     {
+//                         method: 'GET',
+//                     }
+//                 );
+//                 const data = await res.json();
+//                 setSavedRecipes(data);
+//             };
+//             loadUserRecipes();
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }, []);
+
+//     const toastConfiguration = {
+//         autoClose: 1000,
+//         pauseOnFocusLoss: false,
+//     };
+
+//     const notifySuccess = (message) => {
+//         toast.success(message, toastConfiguration);
+//     };
+
+//     const notifyError = (message) => {
+//         toast.error(message, toastConfiguration);
+//     };
+
+//     const addRecipeToDb = async (recipeId) => {
+//         try {
+//             await fetch(`http://localhost:5000/users/addRecipe/${user.id}`, {
+//                 method: 'PUT',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({ recipeId }),
+//             });
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     };
+
+//     const deleteRecipeFromDb = async (recipeId) => {
+//         try {
+//             await fetch(`http://localhost:5000/users/deleteRecipe/${user.id}`, {
+//                 method: 'PUT',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({ recipeId }),
+//             });
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     };
+
+//     const handleSavedRecipe = async (recipe) => {
+//         if (!savedRecipes.includes(recipe.id)) {
+//             notifySuccess(`${recipe.title} saved`);
+//             await addRecipeToDb(recipe.id);
+//         } else {
+//             notifyError(`${recipe.title} unsaved`);
+//             await deleteRecipeFromDb(recipe.id);
+//         }
+//     };
+
+//     return (
+//         <div className="recipe-page">
+//             <ToastContainer limit={1} icon={false} />
+//             <div className="recipe-page-header">
+//                 <div className="btn-to-back-container">
+//                     <button
+//                         className="btn-to-back"
+//                         onClick={() => history.goBack()}
+//                     >
+//                         <i className="fa fa-arrow-left fa-2x"></i>
+//                     </button>
+//                 </div>
+//                 <button
+//                     className={`btn-handle-saved-recipe ${
+//                         recipe && !savedRecipes.includes(recipe.id)
+//                             ? 'not-saved'
+//                             : 'saved'
+//                     }`}
+//                     onClick={() => handleSavedRecipe(recipe)}
+//                 >
+//                     {recipe && !savedRecipes.includes(recipe.id) ? (
+//                         <i className="fa fa-heart fa-3x"></i>
+//                     ) : (
+//                         <i className="fa fa-heart fa-3x"></i>
+//                     )}
+//                 </button>
+//             </div>
+//             {recipe && (
+//                 <div className="recipe-page-container">
+//                     <img src={recipe.image} alt={`${recipe.title}-page-img`} />
+//                     <div className="recipe-page-title">{recipe.title}</div>
+//                     <ul className="recipe-page-meta">
+//                         <li className="recipe-page-meta-info">
+//                             Time in minutes{' '}
+//                             <span>
+//                                 <strong>{recipe.readyInMinutes}</strong>
+//                             </span>
+//                         </li>
+//                         <li className="recipe-page-meta-info">
+//                             Serving size{' '}
+//                             <span>
+//                                 <strong>{recipe.servings}</strong>
+//                             </span>
+//                         </li>
+//                     </ul>
+//                     <ul className="recipe-page-filters">
+//                         <li className="recipe-page-filter">
+//                             Vegetarian
+//                             <span>
+//                                 {recipe.vegetarian ? (
+//                                     <i className="fa fa-check"></i>
+//                                 ) : (
+//                                     <i className="fa fa-times"></i>
+//                                 )}
+//                             </span>
+//                         </li>
+//                         <li className="recipe-page-filter">
+//                             Vegan
+//                             <span>
+//                                 {recipe.vegan ? (
+//                                     <i className="fa fa-check"></i>
+//                                 ) : (
+//                                     <i className="fa fa-times"></i>
+//                                 )}
+//                             </span>
+//                         </li>
+//                         <li className="recipe-page-filter">
+//                             Gluten Free
+//                             <span>
+//                                 {recipe.glutenFree ? (
+//                                     <i className="fa fa-check"></i>
+//                                 ) : (
+//                                     <i className="fa fa-times"></i>
+//                                 )}
+//                             </span>
+//                         </li>
+//                         <li className="recipe-page-filter">
+//                             Dairy Free
+//                             <span>
+//                                 {recipe.dairyFree ? (
+//                                     <i className="fa fa-check"></i>
+//                                 ) : (
+//                                     <i className="fa fa-times"></i>
+//                                 )}
+//                             </span>
+//                         </li>
+//                     </ul>
+//                     <ul className="recipe-page-ingredients">
+//                         <div className="recipe-page-ingredients-title">
+//                             <strong>Ingredients</strong>
+//                         </div>
+//                         <div className="recipe-page-ingredients-list">
+//                             {recipe.extendedIngredients.map(
+//                                 (ingredient, index) => {
+//                                     return (
+//                                         <li
+//                                             className="recipe-page-ingredient"
+//                                             key={index}
+//                                         >
+//                                             {ingredient.original}
+//                                         </li>
+//                                     );
+//                                 }
+//                             )}
+//                         </div>
+//                     </ul>
+//                     <ol className="recipe-page-directions" type="1">
+//                         <div className="recipe-page-directions-title">
+//                             <strong>Directions</strong>
+//                         </div>
+//                         {recipe.analyzedInstructions[0].steps.map(
+//                             (instruction, index) => {
+//                                 return (
+//                                     <li
+//                                         className="recipe-page-direction"
+//                                         key={index}
+//                                     >
+//                                         <div className="recipe-page-direction-step">
+//                                             <strong>Step {index + 1}</strong>
+//                                         </div>
+//                                         {instruction.step}
+//                                     </li>
+//                                 );
+//                             }
+//                         )}
+//                     </ol>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default RecipePage;
+
+import { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../../App';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './RecipePage.css';
 
+toast.configure();
+
 const RecipePage = () => {
-    // const [recipe, setRecipe] = useState(null);
+    const user = useContext(UserContext);
+    const history = useHistory();
+
+    const [savedRecipes, setSavedRecipes] = useState([633338]);
 
     const recipe = {
         vegetarian: false,
@@ -69,94 +314,147 @@ const RecipePage = () => {
         ],
     };
 
-    const { recipeId } = useParams();
+    const toastConfiguration = {
+        autoClose: 1000,
+        pauseOnFocusLoss: false,
+    };
 
-    // useEffect(() => {
-    //     try {
-    //         const loadRecipe = async () => {
-    //             const res = await fetch(
-    //                 `http://localhost:5000/recipe/${recipeId}`,
-    //                 {
-    //                     method: 'GET',
-    //                 }
-    //             );
-    //             const data = await res.json();
-    //             setRecipe(data);
-    //         };
-    //         loadRecipe();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }, []);
+    const notifySuccess = (message) => {
+        toast.success(message, toastConfiguration);
+    };
+
+    const notifyError = (message) => {
+        toast.error(message, toastConfiguration);
+    };
+
+    const handleSavedRecipe = async (recipe) => {
+        if (!savedRecipes.includes(recipe.id)) {
+            notifySuccess(`${recipe.title} saved`);
+        } else {
+            notifyError(`${recipe.title} unsaved`);
+        }
+    };
 
     return (
         <div className="recipe-page">
+            <ToastContainer limit={1} icon={false} />
+            <div className="recipe-page-header">
+                <div className="btn-to-back-container">
+                    <button
+                        className="btn-to-back"
+                        onClick={() => history.goBack()}
+                    >
+                        <i className="fa fa-arrow-left fa-2x"></i>
+                    </button>
+                </div>
+                <button
+                    className={`btn-handle-saved-recipe ${
+                        recipe && !savedRecipes.includes(recipe.id)
+                            ? 'not-saved'
+                            : 'saved'
+                    }`}
+                    onClick={() => handleSavedRecipe(recipe)}
+                >
+                    {recipe && !savedRecipes.includes(recipe.id) ? (
+                        <i className="fa fa-heart fa-3x"></i>
+                    ) : (
+                        <i className="fa fa-heart fa-3x"></i>
+                    )}
+                </button>
+            </div>
             {recipe && (
                 <div className="recipe-page-container">
                     <img src={recipe.image} alt={`${recipe.title}-page-img`} />
                     <div className="recipe-page-title">{recipe.title}</div>
                     <ul className="recipe-page-meta">
                         <li className="recipe-page-meta-info">
-                            Time in minutes {recipe.readyInMinutes}
+                            Time in minutes{' '}
+                            <span>
+                                <strong>{recipe.readyInMinutes}</strong>
+                            </span>
                         </li>
                         <li className="recipe-page-meta-info">
-                            Serving size {recipe.servings}
+                            Serving size{' '}
+                            <span>
+                                <strong>{recipe.servings}</strong>
+                            </span>
                         </li>
                     </ul>
                     <ul className="recipe-page-filters">
                         <li className="recipe-page-filter">
                             Vegetarian
-                            {recipe.vegetarian ? (
-                                <i className="fa fa-check"></i>
-                            ) : (
-                                <i className="fa fa-times"></i>
-                            )}
+                            <span>
+                                {recipe.vegetarian ? (
+                                    <i className="fa fa-check"></i>
+                                ) : (
+                                    <i className="fa fa-times"></i>
+                                )}
+                            </span>
                         </li>
                         <li className="recipe-page-filter">
                             Vegan
-                            {recipe.vegan ? (
-                                <i className="fa fa-check"></i>
-                            ) : (
-                                <i className="fa fa-times"></i>
-                            )}
+                            <span>
+                                {recipe.vegan ? (
+                                    <i className="fa fa-check"></i>
+                                ) : (
+                                    <i className="fa fa-times"></i>
+                                )}
+                            </span>
                         </li>
                         <li className="recipe-page-filter">
                             Gluten Free
-                            {recipe.glutenFree ? (
-                                <i className="fa fa-check"></i>
-                            ) : (
-                                <i className="fa fa-times"></i>
-                            )}
+                            <span>
+                                {recipe.glutenFree ? (
+                                    <i className="fa fa-check"></i>
+                                ) : (
+                                    <i className="fa fa-times"></i>
+                                )}
+                            </span>
                         </li>
                         <li className="recipe-page-filter">
                             Dairy Free
-                            {recipe.dairyFree ? (
-                                <i className="fa fa-check"></i>
-                            ) : (
-                                <i className="fa fa-times"></i>
-                            )}
+                            <span>
+                                {recipe.dairyFree ? (
+                                    <i className="fa fa-check"></i>
+                                ) : (
+                                    <i className="fa fa-times"></i>
+                                )}
+                            </span>
                         </li>
                     </ul>
                     <ul className="recipe-page-ingredients">
-                        {recipe.extendedIngredients.map((ingredient, index) => {
-                            return (
-                                <li
-                                    className="recipe-page-ingredient"
-                                    key={index}
-                                >
-                                    {ingredient.original}
-                                </li>
-                            );
-                        })}
+                        <div className="recipe-page-ingredients-title">
+                            <strong>Ingredients</strong>
+                        </div>
+                        <div className="recipe-page-ingredients-list">
+                            {recipe.extendedIngredients.map(
+                                (ingredient, index) => {
+                                    return (
+                                        <li
+                                            className="recipe-page-ingredient"
+                                            key={index}
+                                        >
+                                            {ingredient.original}
+                                        </li>
+                                    );
+                                }
+                            )}
+                        </div>
                     </ul>
-                    <ol className="recipe-page-instructions" type="1">
+                    <ol className="recipe-page-directions" type="1">
+                        <div className="recipe-page-directions-title">
+                            <strong>Directions</strong>
+                        </div>
                         {recipe.analyzedInstructions[0].steps.map(
                             (instruction, index) => {
                                 return (
                                     <li
-                                        className="recipe-page-instruction"
+                                        className="recipe-page-direction"
                                         key={index}
                                     >
+                                        <div className="recipe-page-direction-step">
+                                            <strong>Step {index + 1}</strong>
+                                        </div>
                                         {instruction.step}
                                     </li>
                                 );
@@ -168,13 +466,5 @@ const RecipePage = () => {
         </div>
     );
 };
-
-// analyzedInstructions: [
-//     {
-//         steps: [
-//             {
-//                 number: 1,
-//                 step: 'Place the tenderloins on a large dish and wrap a slice of room temperature bacon around each filet, gently stretching the bacon if needed. Secure the ends of the bacon with a toothpick.',
-//                 ingredients: [
 
 export default RecipePage;

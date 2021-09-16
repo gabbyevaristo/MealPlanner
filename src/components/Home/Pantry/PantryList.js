@@ -17,7 +17,25 @@ const PantryList = () => {
     const [ingredientMatch, setIngredientMatch] = useState([]);
     const [areMatchesOpen, setAreMatchesOpen] = useState(false);
     const [checkedPantryItems, setCheckedPantryItems] = useState([]);
-    const [pantry, setPantry] = useState(Object.keys(user.ownedIngredients));
+    const [pantry, setPantry] = useState([]);
+
+    useEffect(() => {
+        try {
+            const loadUserIngredients = async () => {
+                const res = await fetch(
+                    `http://localhost:5000/users/getIngredients/${user.id}`,
+                    {
+                        method: 'GET',
+                    }
+                );
+                const data = await res.json();
+                setPantry(data);
+            };
+            loadUserIngredients();
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -81,7 +99,7 @@ const PantryList = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ ingredient, quantity: 0 }),
+                    body: JSON.stringify({ ingredient }),
                 }
             );
         } catch (err) {
@@ -140,7 +158,12 @@ const PantryList = () => {
     return (
         <div className="pantry-list-section">
             <ToastContainer limit={1} icon={false} />
-            <div className="pantry-search" ref={wrapperRef}>
+            <div
+                className={`pantry-search ${
+                    pantry.length !== 0 ? 'pantry-search-border-active' : ''
+                }`}
+                ref={wrapperRef}
+            >
                 <div
                     className={`ingredient-input ${
                         ingredientMatch.length !== 0
@@ -154,7 +177,7 @@ const PantryList = () => {
                         value={ingredientInput}
                         onClick={handleInputClick}
                         onChange={handleIngredientInputChange}
-                        placeholder="Add ingredient"
+                        placeholder="Add ingredient from pantry"
                         required
                     />
                 </div>
@@ -197,8 +220,15 @@ const PantryList = () => {
                 </div>
             )}
             <div className="pantry-list">
-                <div className="pantry-list-container">
-                    {pantry.length !== 0 &&
+                <div
+                    className={`pantry-list-container ${
+                        pantry.length !== 0
+                            ? 'pantry-list-container-active'
+                            : ''
+                    }`}
+                >
+                    {pantry &&
+                        pantry.length !== 0 &&
                         pantry.map((item, index) => {
                             return (
                                 <PantryListItem

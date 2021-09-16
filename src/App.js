@@ -39,7 +39,7 @@ function App() {
     };
 
     const handleSignUp = (user) => {
-        localStorage.setItem('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     };
 

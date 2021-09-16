@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../../App';
 import './RecipeCard.css';
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, inSavedRecipe }) => {
     const user = useContext(UserContext);
 
     return (
@@ -11,7 +11,7 @@ const RecipeCard = ({ recipe }) => {
             <div className="recipe-card">
                 {recipe && (
                     <div className="recipe-card-container">
-                        {user && user.savedRecipes.includes(recipe.id) && (
+                        {user && inSavedRecipe && (
                             <div className="recipe-card-heart">
                                 <i className="fa fa-heart fa-3x"></i>
                             </div>

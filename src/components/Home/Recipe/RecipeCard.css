@@ -34,8 +34,8 @@
 .recipe-card-container .recipe-card-heart {
     position: absolute;
     top: 0.8rem;
-    right: 0.8rem;
-    width: 50px;
+    right: 0.3rem;
+    width: 60px;
     color: rgb(236, 84, 84);
     background: none;
     border: none;

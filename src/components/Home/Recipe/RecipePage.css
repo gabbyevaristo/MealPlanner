@@ -1,7 +1,203 @@
-.recipe-page-container ul {
-    padding-left: 40px;
+.recipe-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    padding: 0 70px;
 }
 
-.recipe-page-container ol {
-    padding-left: 40px;
+.recipe-page ul,
+ol {
+    list-style: none;
+}
+
+.recipe-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 20px;
+}
+
+.btn-to-back-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    border-radius: 7px;
+}
+
+.btn-to-back-container .btn-to-back {
+    color: var(--color-green);
+    background-color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+    border: none;
+}
+
+.recipe-page-header .btn-handle-saved-recipe.not-saved {
+    width: 60px;
+    color: #000;
+    background-color: #fff;
+    opacity: 0.6;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.recipe-page-header .btn-handle-saved-recipe.saved {
+    width: 60px;
+    color: rgb(236, 84, 84);
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.recipe-page .recipe-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    background-color: #d7ffc4;
+    overflow: hidden;
+}
+
+.recipe-page-container img {
+    height: 340px;
+    width: 550px;
+}
+
+.recipe-page-container .recipe-page-title {
+    position: relative;
+    padding: 30px 30px;
+    font-size: 40px;
+    font-weight: 600px;
+    text-align: center;
+}
+
+.recipe-page-container .recipe-page-title:after {
+    content: '';
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    height: 2px;
+    width: 50%;
+    background-color: #000;
+}
+
+.recipe-page-container .recipe-page-meta {
+    width: 170px;
+    padding: 40px 0 18px;
+}
+
+.recipe-page-meta .recipe-page-meta-info {
+    display: flex;
+}
+
+.recipe-page-meta .recipe-page-meta-info span {
+    margin-left: auto;
+    flex: 0 0 30px;
+}
+
+.recipe-page-container .recipe-page-filters {
+    width: 130px;
+    padding: 6px 0 40px;
+}
+
+.recipe-page-filters .recipe-page-filter {
+    display: flex;
+}
+
+.recipe-page-filters .recipe-page-filter span {
+    margin-left: auto;
+    flex: 0 0 30px;
+}
+
+.recipe-page-container .recipe-page-ingredients {
+    position: relative;
+    width: 55%;
+    padding: 38px 0;
+}
+
+.recipe-page-container .recipe-page-ingredients:before {
+    content: '';
+    position: absolute;
+    left: 25%;
+    top: 0;
+    height: 2px;
+    width: 50%;
+    background-color: #000;
+}
+
+.recipe-page-container .recipe-page-ingredients:after {
+    content: '';
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    height: 2px;
+    width: 50%;
+    background-color: #000;
+}
+
+.recipe-page-ingredients .recipe-page-ingredients-title {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.recipe-page-ingredients .recipe-page-ingredients-list {
+    column-count: 2;
+}
+
+.recipe-page-ingredients .recipe-page-ingredient {
+    break-inside: avoid;
+    padding: 3px 0;
+}
+
+.recipe-page-container .recipe-page-directions {
+    width: 70%;
+    padding: 38px 0 50px;
+}
+
+.recipe-page-directions .recipe-page-directions-title {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.recipe-page-directions .recipe-page-direction {
+    display: flex;
+    padding: 6px 0;
+}
+
+.recipe-page-direction .recipe-page-direction-step {
+    flex: 0 0 65px;
+}
+
+@media only screen and (max-width: 600px) {
+    .recipe-page {
+        padding: 0px;
+        font-size: 14px;
+    }
+
+    .recipe-page .recipe-page-container {
+        width: 100%;
+    }
+
+    .recipe-page-container img {
+        height: auto;
+        width: 100%;
+        margin: -10px 0 0 0;
+        border-bottom: 5px solid #000;
+    }
+
+    .recipe-page-container .recipe-page-title {
+        /* padding: 15px 30px; */
+        font-size: 28px;
+    }
+
+    .recipe-page-container .recipe-page-directions {
+        width: 80%;
+    }
 }

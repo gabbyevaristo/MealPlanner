@@ -1,6 +1,99 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+// import { useState, useEffect, useContext } from 'react';
+// import { useParams } from 'react-router';
+// import { Link } from 'react-router-dom';
+// import { UserContext } from '../../../App';
+// import RecipeCard from './RecipeCard';
+// import './FilteredRecipes.css';
+
+// const FilteredRecipes = () => {
+//     const user = useContext(UserContext);
+//     const { selectedPantryItems: ingredients } = useParams();
+
+//     const [filteredRecipes, setFilteredRecipes] = useState([]);
+//     const [savedRecipes, setSavedRecipes] = useState([]);
+
+//     useEffect(() => {
+//         try {
+//             const loadFilteredRecipes = async () => {
+//                 const res = await fetch(
+//                     'http://localhost:5000/recipe/findByIngredients',
+//                     {
+//                         method: 'POST',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                         body: JSON.stringify({ ingredients, amount: 9 }),
+//                     }
+//                 );
+//                 const data = await res.json();
+//                 setFilteredRecipes(data);
+//             };
+//             loadFilteredRecipes();
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }, []);
+
+//     useEffect(() => {
+//         try {
+//             const loadUserRecipes = async () => {
+//                 const res = await fetch(
+//                     `http://localhost:5000/users/getRecipes/${user.id}`,
+//                     {
+//                         method: 'GET',
+//                     }
+//                 );
+//                 const data = await res.json();
+//                 setSavedRecipes(data);
+//             };
+//             loadUserRecipes();
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }, []);
+
+//     return (
+//         <div className="filtered-recipes">
+//             <div className="arrow-to-pantry-container">
+//                 <Link to="/home/pantry" className="arrow-to-pantry">
+//                     <i className="fa fa-arrow-left fa-lg"></i>
+//                 </Link>
+//             </div>
+//             <div className="filtered-recipes-title">
+//                 Recipes with <span>Selected Ingredients</span>
+//             </div>
+//             {filteredRecipes.length !== 0 && (
+//                 <div className="filtered-recipes-container">
+//                     {filteredRecipes.map((recipe, index) => {
+//                         return (
+//                             <div className="filtered-recipe" key={index}>
+//                                 <RecipeCard
+//                                     recipe={recipe}
+//                                     inSavedRecipe={
+//                                         savedRecipes.length !== 0
+//                                             ? savedRecipes.includes(recipe.id)
+//                                             : false
+//                                     }
+//                                 />
+//                             </div>
+//                         );
+//                     })}
+//                 </div>
+//             )}
+//             <div className="btn-to-pantry-container">
+//                 <Link to="/home/pantry" className="btn-to-pantry">
+//                     Go Back
+//                 </Link>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default FilteredRecipes;
+
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../App';
 import RecipeCard from './RecipeCard';
 import './FilteredRecipes.css';
 
@@ -525,32 +618,26 @@ const FilteredRecipes = () => {
         },
     ]);
 
-    const { selectedPantryItems: ingredients } = useParams();
-    // const ingredients = selectedPantryItems.replace(/,/g, ', ');
+    const user = useContext(UserContext);
+    const [savedRecipes, setSavedRecipes] = useState([]);
 
-    // const [filteredRecipes, setFilteredRecipes] = useState([]);
-
-    // useEffect(() => {
-    //     try {
-    //         const loadFilteredRecipes = async () => {
-    //             const res = await fetch(
-    //                 'http://localhost:5000/recipe/findByIngredients',
-    //                 {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                     body: JSON.stringify({ ingredients, amount: 9 }),
-    //                 }
-    //             );
-    //             const data = await res.json();
-    //             setFilteredRecipes(data);
-    //         };
-    //         loadFilteredRecipes();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }, []);
+    useEffect(() => {
+        try {
+            const loadUserRecipes = async () => {
+                const res = await fetch(
+                    `http://localhost:5000/users/getRecipes/${user.id}`,
+                    {
+                        method: 'GET',
+                    }
+                );
+                const data = await res.json();
+                setSavedRecipes(data);
+            };
+            loadUserRecipes();
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
 
     return (
         <div className="filtered-recipes">
@@ -567,7 +654,14 @@ const FilteredRecipes = () => {
                     {filteredRecipes.map((recipe, index) => {
                         return (
                             <div className="filtered-recipe" key={index}>
-                                <RecipeCard recipe={recipe} />
+                                <RecipeCard
+                                    recipe={recipe}
+                                    inSavedRecipe={
+                                        savedRecipes.length !== 0
+                                            ? savedRecipes.includes(recipe.id)
+                                            : false
+                                    }
+                                />
                             </div>
                         );
                     })}
