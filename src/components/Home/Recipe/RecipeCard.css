@@ -1,6 +1,6 @@
 :root {
     --recipe-card-width: 280px;
-    --recipe-card-width-mobile: 260px;
+    --recipe-card-width-mobile: 220px;
 }
 
 .recipe-card-link {

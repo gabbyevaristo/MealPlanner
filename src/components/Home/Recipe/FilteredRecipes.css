@@ -17,6 +17,13 @@
     color: #fff;
 }
 
+.filtered-recipes .filtered-recipes-title {
+    width: 100%;
+    padding: 10px 0 30px;
+    font-size: var(--home-title-font-size);
+    font-weight: 700;
+}
+
 .filtered-recipes .filtered-recipes-container {
     display: flex;
     justify-content: center;
@@ -26,13 +33,6 @@
 
 .filtered-recipes-container .filtered-recipe {
     padding: 20px 40px;
-}
-
-.filtered-recipes .filtered-recipes-title {
-    width: 100%;
-    padding: 10px 0 30px;
-    font-size: var(--home-title-font-size);
-    font-weight: 700;
 }
 
 @media only screen and (max-width: 1000px) {

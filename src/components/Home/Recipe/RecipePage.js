@@ -330,8 +330,10 @@ const RecipePage = () => {
     const handleSavedRecipe = async (recipe) => {
         if (!savedRecipes.includes(recipe.id)) {
             notifySuccess(`${recipe.title} saved`);
+            setSavedRecipes([recipe.id]);
         } else {
             notifyError(`${recipe.title} unsaved`);
+            setSavedRecipes([]);
         }
     };
 
