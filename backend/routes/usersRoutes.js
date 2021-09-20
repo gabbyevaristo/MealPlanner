@@ -44,10 +44,11 @@ router.post('/registerUser', async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         const savedUser = await newUser.save();
         res.json({
-            id: user._id.toString(),
-            name: user.name,
-            savedRecipes: user.savedRecipes,
-            ownedIngredients: user.ownedIngredients,
+            id: savedUser._id.toString(),
+            name: savedUser.name,
+            ownedIngredients: savedUser.ownedIngredients,
+            savedRecipes: savedUser.savedRecipes,
+            shoppingList: savedUser.shoppingList,
         });
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -65,8 +66,9 @@ router.post('/loginUser', async (req, res) => {
                 res.json({
                     id: user._id.toString(),
                     name: user.name,
-                    savedRecipes: user.savedRecipes,
                     ownedIngredients: user.ownedIngredients,
+                    savedRecipes: user.savedRecipes,
+                    shoppingList: user.shoppingList,
                 });
             } else {
                 throw new Error(`Wrong email or password`);
@@ -79,11 +81,29 @@ router.post('/loginUser', async (req, res) => {
     }
 });
 
-// Get user ingredients
+// Delete user
+router.delete('/deleteUser/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            throw new Error(`User with ID: ${req.params.id} does not exist`);
+        }
+        const removedUser = await User.deleteOne({
+            _id: req.params.id,
+        });
+        res.json(removedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
+// Edit password
+
+// Get user's ingredients
 router.get('/getIngredients/:id', async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
-        const ingredients = Object.keys(user.ownedIngredients);
+        const ingredients = user.ownedIngredients;
         res.json(ingredients);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -93,40 +113,12 @@ router.get('/getIngredients/:id', async (req, res) => {
 // Add to ingredients list
 router.put('/addIngredient/:id', async (req, res) => {
     try {
-        const { ingredient, quantity } = req.body;
-        const query = `ownedIngredients.${ingredient}`;
-        const foundIngredient = await User.findOne(
-            { _id: req.params.id },
-            {
-                [query]: 1,
-            }
-        );
-        const oldQuantity = foundIngredient.ownedIngredients[ingredient];
-        const value = oldQuantity ? oldQuantity + quantity : quantity;
+        const { ingredient } = req.body;
         const updatedUser = await User.updateOne(
             { _id: req.params.id },
             {
-                $set: {
-                    [query]: value,
-                },
-            }
-        );
-        res.json(updatedUser);
-    } catch (err) {
-        res.status(400).json({ msg: err.message });
-    }
-});
-
-// Modify ingredients list
-router.put('/editIngredient/:id', async (req, res) => {
-    try {
-        const { ingredient, quantity } = req.body;
-        const query = `ownedIngredients.${ingredient}`;
-        const updatedUser = await User.updateOne(
-            { _id: req.params.id },
-            {
-                $set: {
-                    [query]: quantity,
+                $addToSet: {
+                    ownedIngredients: [ingredient],
                 },
             }
         );
@@ -140,12 +132,11 @@ router.put('/editIngredient/:id', async (req, res) => {
 router.put('/deleteIngredient/:id', async (req, res) => {
     try {
         const { ingredient } = req.body;
-        const query = `ownedIngredients.${ingredient}`;
         const updatedUser = await User.updateOne(
             { _id: req.params.id },
             {
-                $unset: {
-                    [query]: '',
+                $pull: {
+                    ownedIngredients: ingredient,
                 },
             }
         );
@@ -202,22 +193,51 @@ router.put('/deleteRecipe/:id', async (req, res) => {
     }
 });
 
-// Delete user
-router.delete('/deleteUser/:id', async (req, res) => {
+// Get user shopping list
+router.get('/getShoppingList/:id', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            throw new Error(`User with ID: ${req.params.id} does not exist`);
-        }
-        const removedUser = await User.deleteOne({
-            _id: req.params.id,
-        });
-        res.json(removedUser);
+        const user = await User.findOne({ _id: req.params.id });
+        const shoppingList = user.shoppingList;
+        res.json(shoppingList);
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
 });
 
-// Edit password
+// Add to shopping list
+router.put('/addShoppingList/:id', async (req, res) => {
+    try {
+        const { item } = req.body;
+        const updatedUser = await User.updateOne(
+            { _id: req.params.id },
+            {
+                $addToSet: {
+                    shoppingList: [item],
+                },
+            }
+        );
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
+// Remove from shopping list
+router.put('/deleteShoppingList/:id', async (req, res) => {
+    try {
+        const { item } = req.body;
+        const updatedUser = await User.updateOne(
+            { _id: req.params.id },
+            {
+                $pull: {
+                    shoppingList: item,
+                },
+            }
+        );
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
 
 export default router;

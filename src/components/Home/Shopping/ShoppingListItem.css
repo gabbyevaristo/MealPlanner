@@ -1,0 +1,39 @@
+:root {
+    --shopping-list-items-padding: 17px;
+}
+
+.shopping-list-item {
+    padding: 0 10px;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+.shopping-list-item .shopping-list-item-container {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    border-bottom: 1px solid #dedede;
+}
+
+.shopping-list-item .shopping-list-item-title {
+    padding-left: var(--shopping-list-items-padding);
+}
+
+.shopping-list-item .shopping-list-item-inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 80px;
+    margin-left: auto;
+    padding-right: var(--shopping-list-items-padding);
+}
+
+.shopping-list-item-inputs .shopping-list-item-btn {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.shopping-list-item-inputs input {
+    height: 24px;
+    width: 24px;
+}

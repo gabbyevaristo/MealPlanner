@@ -86,8 +86,6 @@
 //     }
 // });
 
-// // FOR LATER
-// // Get recipes based on a certain number of ingredients
 // // Get similar recipes
 
 // export default router;
@@ -128,9 +126,9 @@ router.get('/getAllIngredients', async (req, res) => {
 // Search recipes
 router.post('/', async (req, res) => {
     try {
-        const { search } = req.body;
+        const { query, cuisine, diet, type, amount } = req.body;
         const recipes = await fetch(
-            `https://api.spoonacular.com/recipes/complexSearch?apiKey=9c220663160041f38ec55a6cfaddc642&query=${search}&number=20`
+            `https://api.spoonacular.com/recipes/complexSearch?apiKey=9c220663160041f38ec55a6cfaddc642&query=${query}&cuisine=${cuisine}&diet=${diet}&type=${type}&number=${amount}`
         );
         const data = await recipes.json();
         res.json(data);
@@ -160,7 +158,7 @@ router.post('/random', async (req, res) => {
             `https://api.spoonacular.com/recipes/random?apiKey=9c220663160041f38ec55a6cfaddc642&number=${amount}&tags=${tags}`
         );
         const data = await recipes.json();
-        res.json(data);
+        res.json(data.recipes);
     } catch (err) {
         res.json({ msg: 'Server error' });
     }
@@ -180,8 +178,6 @@ router.post('/findByIngredients', async (req, res) => {
     }
 });
 
-// FOR LATER
-// Get recipes based on a certain number of ingredients
 // Get similar recipes
 
 export default router;

@@ -1,17 +1,13 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../App';
 import './RecipeCard.css';
 
-const RecipeCard = ({ recipe }) => {
-    const user = useContext(UserContext);
-
+const RecipeCard = ({ recipe, inSavedRecipe }) => {
     return (
         <Link to={`/home/recipe/${recipe.id}`} className="recipe-card-link">
             <div className="recipe-card">
                 {recipe && (
                     <div className="recipe-card-container">
-                        {user && user.savedRecipes.includes(recipe.id) && (
+                        {inSavedRecipe && (
                             <div className="recipe-card-heart">
                                 <i className="fa fa-heart fa-3x"></i>
                             </div>

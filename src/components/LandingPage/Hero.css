@@ -8,28 +8,27 @@
 
 .hero-container {
     position: absolute;
-    top: 16%;
-    left: 12%;
+    top: 12%;
+    left: 8%;
 }
 
 .hero img {
     height: 100%;
     width: 100%;
-    opacity: 0.6;
 }
 
 .hero-content {
     display: flex;
     flex-direction: column;
-    max-width: 85%;
+    max-width: 75%;
     padding: 90px 20px;
 }
 
 .slogan {
     padding-bottom: 40px;
-    font-size: 60px;
+    font-size: 70px;
     font-weight: 700;
-    color: #000;
+    color: #fff;
 }
 
 @media only screen and (max-width: 900px) {
@@ -43,8 +42,8 @@
     }
 
     .hero-container {
-        top: 8%;
-        left: 10%;
+        top: 10%;
+        left: 6%;
     }
 
     .hero-content {
@@ -66,7 +65,7 @@
     }
 
     .hero-content {
-        max-width: 78%;
+        max-width: 70%;
     }
 
     .slogan {

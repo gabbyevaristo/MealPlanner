@@ -3,8 +3,8 @@ import './PantryListItem.css';
 const PantryListItem = ({
     item,
     index,
-    handleRemoveItem,
-    handleCheckedItem,
+    handleRemovePantryItem,
+    handleCheckedPantryItem,
 }) => {
     return (
         <div className="pantry-list-item" key={index}>
@@ -15,11 +15,12 @@ const PantryListItem = ({
                         type="checkbox"
                         name={`pantry-list-item-${item}`}
                         className="pantry-list-item-btn"
-                        onChange={() => handleCheckedItem(item)}
+                        onChange={() => handleCheckedPantryItem(item)}
                     />
                     <button
                         className="pantry-list-item-btn"
-                        onClick={() => handleRemoveItem(item)}
+                        title="Remove from pantry"
+                        onClick={() => handleRemovePantryItem(item)}
                     >
                         <i className="fa fa-trash fa-2x"></i>
                     </button>

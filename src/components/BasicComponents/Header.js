@@ -5,7 +5,7 @@ import Logo from './Logo';
 import './Header.css';
 
 const Header = ({ handleSignOut }) => {
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const wrapperRef = useRef(null);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -51,9 +51,9 @@ const SignUp = ({ handleSignUp }) => {
             const data = await res.json();
 
             if (res.ok) {
-                const registeredUser = data.msg;
+                const registeredUser = data;
                 handleSignUp(registeredUser);
-                history.push('/home');
+                history.push('/home/registration');
             } else {
                 if (data.msg === 'EMAIL_EXISTS') {
                     setIsEmailValid(false);

@@ -1,6 +1,11 @@
+:root {
+    --pantry-list-items-padding: 17px;
+}
+
 .pantry-list-item {
     padding: 0 10px;
     background-color: #fff;
+    font-size: 14px;
 }
 
 .pantry-list-item .pantry-list-item-container {

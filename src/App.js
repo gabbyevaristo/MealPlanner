@@ -4,6 +4,7 @@ import Header from './components/BasicComponents/Header';
 import LandingPage from './components/LandingPage/LandingPage';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
+import About from './components/BasicComponents/About';
 import RouteNotFound from './components/BasicComponents/RouteNotFound';
 import './App.css';
 
@@ -13,6 +14,7 @@ export const UserContext = createContext();
 function App() {
     const localUser = JSON.parse(localStorage.getItem('user')) || null;
     const [user, setUser] = useState(localUser);
+    const contextValue = { user, setUser };
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
@@ -39,7 +41,7 @@ function App() {
     };
 
     const handleSignUp = (user) => {
-        localStorage.setItem('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     };
 
@@ -50,7 +52,7 @@ function App() {
 
     return (
         <IngredientContext.Provider value={ingredients}>
-            <UserContext.Provider value={user}>
+            <UserContext.Provider value={contextValue}>
                 <Header handleSignOut={handleSignOut} />
                 <Switch>
                     <Route path="/" exact>
@@ -75,6 +77,12 @@ function App() {
                             user ? <AuthenticatedRoute /> : <Redirect to="/" />
                         }
                     />
+                    <Route path="/about" exact>
+                        <About />
+                    </Route>
+                    {/* <Route path="/contact" exact>
+                        <Contact />
+                    </Route> */}
                     <Route component={RouteNotFound} />
                 </Switch>
             </UserContext.Provider>
