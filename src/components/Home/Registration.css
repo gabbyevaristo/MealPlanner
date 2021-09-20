@@ -1,0 +1,21 @@
+.registration-container {
+    height: 65vh;
+    padding: 130px 130px;
+}
+
+.registration-container .registration-content {
+    text-align: center;
+}
+
+.registration-content .registration-title {
+    font-size: 28px;
+}
+
+.registration-content .registration-links {
+    padding-top: 40px;
+    font-size: 20px;
+}
+
+.registration-links .registration-link {
+    color: var(--color-green);
+}

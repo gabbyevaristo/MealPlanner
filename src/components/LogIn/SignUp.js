@@ -53,7 +53,7 @@ const SignUp = ({ handleSignUp }) => {
             if (res.ok) {
                 const registeredUser = data;
                 handleSignUp(registeredUser);
-                history.push('/home');
+                history.push('/home/registration');
             } else {
                 if (data.msg === 'EMAIL_EXISTS') {
                     setIsEmailValid(false);

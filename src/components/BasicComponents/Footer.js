@@ -9,14 +9,14 @@ const Footer = () => {
             <div className="footer-links-container">
                 <div className="footer-links">
                     <Link to="/about" className="footer-link">
-                        About
+                        About Us
                     </Link>
                 </div>
-                <div className="footer-links">
+                {/* <div className="footer-links">
                     <Link to="/contact" className="footer-link">
                         Contact
                     </Link>
-                </div>
+                </div> */}
             </div>
         </footer>
     );

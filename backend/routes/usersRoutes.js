@@ -46,6 +46,9 @@ router.post('/registerUser', async (req, res) => {
         res.json({
             id: savedUser._id.toString(),
             name: savedUser.name,
+            ownedIngredients: savedUser.ownedIngredients,
+            savedRecipes: savedUser.savedRecipes,
+            shoppingList: savedUser.shoppingList,
         });
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -63,6 +66,9 @@ router.post('/loginUser', async (req, res) => {
                 res.json({
                     id: user._id.toString(),
                     name: user.name,
+                    ownedIngredients: user.ownedIngredients,
+                    savedRecipes: user.savedRecipes,
+                    shoppingList: user.shoppingList,
                 });
             } else {
                 throw new Error(`Wrong email or password`);
@@ -75,7 +81,25 @@ router.post('/loginUser', async (req, res) => {
     }
 });
 
-// Get user ingredients
+// Delete user
+router.delete('/deleteUser/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            throw new Error(`User with ID: ${req.params.id} does not exist`);
+        }
+        const removedUser = await User.deleteOne({
+            _id: req.params.id,
+        });
+        res.json(removedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
+// Edit password
+
+// Get user's ingredients
 router.get('/getIngredients/:id', async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
@@ -169,22 +193,51 @@ router.put('/deleteRecipe/:id', async (req, res) => {
     }
 });
 
-// Delete user
-router.delete('/deleteUser/:id', async (req, res) => {
+// Get user shopping list
+router.get('/getShoppingList/:id', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            throw new Error(`User with ID: ${req.params.id} does not exist`);
-        }
-        const removedUser = await User.deleteOne({
-            _id: req.params.id,
-        });
-        res.json(removedUser);
+        const user = await User.findOne({ _id: req.params.id });
+        const shoppingList = user.shoppingList;
+        res.json(shoppingList);
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
 });
 
-// Edit password
+// Add to shopping list
+router.put('/addShoppingList/:id', async (req, res) => {
+    try {
+        const { item } = req.body;
+        const updatedUser = await User.updateOne(
+            { _id: req.params.id },
+            {
+                $addToSet: {
+                    shoppingList: [item],
+                },
+            }
+        );
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
+
+// Remove from shopping list
+router.put('/deleteShoppingList/:id', async (req, res) => {
+    try {
+        const { item } = req.body;
+        const updatedUser = await User.updateOne(
+            { _id: req.params.id },
+            {
+                $pull: {
+                    shoppingList: item,
+                },
+            }
+        );
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message });
+    }
+});
 
 export default router;

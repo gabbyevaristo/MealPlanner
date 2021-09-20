@@ -2,9 +2,10 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './Home/Home';
 import Pantry from './Home/Pantry/Pantry';
 import SavedRecipes from './Home/SavedRecipes';
-import ShoppingList from './Home/ShoppingList';
+import Shopping from './Home/Shopping/Shopping';
 import FilteredRecipes from './Home/Recipe/FilteredRecipes';
 import RecipePage from './Home/Recipe/RecipePage';
+import Registration from './Home/Registration';
 import RouteNotFound from './BasicComponents/RouteNotFound';
 import Footer from './BasicComponents/Footer';
 
@@ -15,6 +16,9 @@ const AuthenticatedRoute = () => {
                 <Route path="/home" exact>
                     <Home />
                 </Route>
+                <Route path="/home/registration" exact>
+                    <Registration />
+                </Route>
                 <Route path="/home/pantry" exact>
                     <Pantry />
                 </Route>
@@ -22,7 +26,7 @@ const AuthenticatedRoute = () => {
                     <SavedRecipes />
                 </Route>
                 <Route path="/home/shopping-list" exact>
-                    <ShoppingList />
+                    <Shopping />
                 </Route>
                 <Route path="/home/filtered-recipes/:selectedPantryItems">
                     <FilteredRecipes />

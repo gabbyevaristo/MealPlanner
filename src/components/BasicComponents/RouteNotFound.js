@@ -5,7 +5,7 @@ import Footer from './Footer';
 import './RouteNotFound.css';
 
 const RouteNotFound = () => {
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     return (
         <div>

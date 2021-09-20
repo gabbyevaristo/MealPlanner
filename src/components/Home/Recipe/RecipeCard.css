@@ -1,5 +1,5 @@
 :root {
-    --recipe-card-width: 280px;
+    --recipe-card-width: 260px;
     --recipe-card-width-mobile: 220px;
 }
 
@@ -25,7 +25,7 @@
 .recipe-card .recipe-card-container {
     display: grid;
     grid-template-columns: var(--recipe-card-width);
-    grid-template-rows: 200px 90px;
+    grid-template-rows: 180px 90px;
     grid-template-areas: 'img' 'title';
     border-radius: 18px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
@@ -62,7 +62,7 @@
     text-align: center;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
     .recipe-card {
         width: var(--recipe-card-width-mobile);
     }

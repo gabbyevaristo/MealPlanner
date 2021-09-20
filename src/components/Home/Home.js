@@ -4,7 +4,7 @@ import RecipeCard from './Recipe/RecipeCard';
 import './Home.css';
 
 const Home = () => {
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const [popularRecipes, setPopularRecipes] = useState([
         {
@@ -67,7 +67,7 @@ const Home = () => {
     //                 body: JSON.stringify({ amount: 8, tags: '' }),
     //             });
     //             const data = await res.json();
-    //             setPopularRecipes(data.recipes);
+    //             setPopularRecipes(data);
     //         };
     //         loadPopularRecipes();
     //     } catch (err) {
@@ -77,6 +77,7 @@ const Home = () => {
 
     return (
         <div className="home">
+            <div className="home-welcome">Welcome {user.name}</div>
             <div className="complex-search-container">
                 <div className="complex-search-title"></div>
             </div>
@@ -84,16 +85,14 @@ const Home = () => {
                 <div className="popular-recipes-title">Popular Recipes</div>
                 {popularRecipes && popularRecipes.length !== 0 && (
                     <div className="popular-recipes">
-                        {popularRecipes.map((recipe, index) => {
-                            return (
-                                <div className="popular-recipe" key={index}>
-                                    <RecipeCard
-                                        recipe={recipe}
-                                        inSavedRecipe={false}
-                                    />
-                                </div>
-                            );
-                        })}
+                        {popularRecipes.map((recipe, index) => (
+                            <div className="popular-recipe" key={index}>
+                                <RecipeCard
+                                    recipe={recipe}
+                                    inSavedRecipe={false}
+                                />
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
