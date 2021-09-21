@@ -31,6 +31,7 @@ const Pagination = ({
                     className={`page-link ${
                         currentPage === number ? 'active' : ''
                     }`}
+                    key={number}
                 >
                     {number}
                 </Link>

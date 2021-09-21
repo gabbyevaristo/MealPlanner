@@ -1,5 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
-import Home from './Home/Home';
+import Home from './Home/Home/Home';
+import GeneralSearch from './Home/Home/GeneralSearch';
 import Pantry from './Home/Pantry/Pantry';
 import SavedRecipes from './Home/SavedRecipes';
 import Shopping from './Home/Shopping/Shopping';
@@ -18,6 +19,9 @@ const AuthenticatedRoute = () => {
                 </Route>
                 <Route path="/home/registration" exact>
                     <Registration />
+                </Route>
+                <Route path="/home/general-search/:queries" exact>
+                    <GeneralSearch />
                 </Route>
                 <Route path="/home/pantry" exact>
                     <Pantry />

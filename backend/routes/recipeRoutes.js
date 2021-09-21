@@ -126,9 +126,9 @@ router.get('/getAllIngredients', async (req, res) => {
 // Search recipes
 router.post('/', async (req, res) => {
     try {
-        const { query, cuisine, diet, type, amount } = req.body;
+        const { query, cuisine, type, diet, amount } = req.body;
         const recipes = await fetch(
-            `https://api.spoonacular.com/recipes/complexSearch?apiKey=9c220663160041f38ec55a6cfaddc642&query=${query}&cuisine=${cuisine}&diet=${diet}&type=${type}&number=${amount}`
+            `https://api.spoonacular.com/recipes/complexSearch?apiKey=9c220663160041f38ec55a6cfaddc642&query=${query}&cuisine=${cuisine}&type=${type}&diet=${diet}&number=${amount}`
         );
         const data = await recipes.json();
         res.json(data);

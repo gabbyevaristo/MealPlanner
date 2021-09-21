@@ -1,13 +1,12 @@
-.home {
-    width: 100vw;
-    padding: 30px 70px 40px;
-}
-
 .popular-recipes-container .popular-recipes-title {
     width: 100%;
     padding: 10px 0;
     font-size: var(--home-title-font-size);
     font-weight: 700;
+}
+
+.popular-recipes-title span {
+    color: var(--color-green);
 }
 
 .popular-recipes-container .popular-recipes {
@@ -32,14 +31,9 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .home {
-        padding: 15px 0 20px;
-    }
-
     .popular-recipes-container .popular-recipes-title {
         padding: 20px 40px 20px;
         font-size: 32px;
-        font-weight: 700;
     }
 
     .popular-recipes-container .popular-recipes {

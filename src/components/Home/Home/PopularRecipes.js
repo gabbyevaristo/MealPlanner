@@ -1,11 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../App';
-import RecipeCard from './Recipe/RecipeCard';
-import './Home.css';
+import { useState, useEffect } from 'react';
+import RecipeCard from '../Recipe/RecipeCard';
+import './PopularRecipes.css';
 
-const Home = () => {
-    const { user } = useContext(UserContext);
-
+const PopularRecipes = () => {
     const [popularRecipes, setPopularRecipes] = useState([
         {
             id: 665620,
@@ -76,28 +73,21 @@ const Home = () => {
     // }, []);
 
     return (
-        <div className="home">
-            <div className="home-welcome">Welcome {user.name}</div>
-            <div className="complex-search-container">
-                <div className="complex-search-title"></div>
+        <div className="popular-recipes-container">
+            <div className="popular-recipes-title">
+                <span>Popular</span> Recipes
             </div>
-            <div className="popular-recipes-container">
-                <div className="popular-recipes-title">Popular Recipes</div>
-                {popularRecipes && popularRecipes.length !== 0 && (
-                    <div className="popular-recipes">
-                        {popularRecipes.map((recipe, index) => (
-                            <div className="popular-recipe" key={index}>
-                                <RecipeCard
-                                    recipe={recipe}
-                                    inSavedRecipe={false}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            {popularRecipes && popularRecipes.length !== 0 && (
+                <div className="popular-recipes">
+                    {popularRecipes.map((recipe, index) => (
+                        <div className="popular-recipe" key={index}>
+                            <RecipeCard recipe={recipe} inSavedRecipe={false} />
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
-export default Home;
+export default PopularRecipes;

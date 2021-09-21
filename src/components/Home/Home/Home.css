@@ -1,0 +1,31 @@
+.home {
+    width: 100vw;
+    padding: 30px 70px 40px;
+}
+
+.home .home-welcome {
+    font-size: var(--home-title-font-size);
+    font-weight: 700;
+}
+
+.home .home-general-search-container {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .home .home-welcome {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .home {
+        padding: 15px 0 20px;
+    }
+
+    .home .home-welcome {
+        font-size: 32px;
+    }
+}
