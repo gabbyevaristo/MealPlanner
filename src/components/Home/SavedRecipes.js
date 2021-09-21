@@ -58,7 +58,7 @@ const SavedRecipes = () => {
     return (
         <div className="saved-recipes">
             <div className="saved-recipes-title">
-                Saved <span>Recipes</span>
+                <span>Saved</span> Recipes
             </div>
             {loading && (
                 <div className="loading-saved-recipes">
