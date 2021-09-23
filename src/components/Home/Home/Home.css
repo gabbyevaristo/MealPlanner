@@ -4,7 +4,8 @@
 }
 
 .home .home-welcome {
-    font-size: var(--home-title-font-size);
+    padding-top: 20px;
+    font-size: 32px;
     font-weight: 700;
 }
 
@@ -26,6 +27,6 @@
     }
 
     .home .home-welcome {
-        font-size: 32px;
+        font-size: 26px;
     }
 }

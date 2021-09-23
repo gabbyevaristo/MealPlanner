@@ -18,6 +18,10 @@
     color: #fff;
 }
 
+.about-img-content span {
+    color: var(--color-green);
+}
+
 .about .about-content-container {
     display: flex;
     flex-direction: column;

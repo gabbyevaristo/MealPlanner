@@ -9,7 +9,7 @@
 }
 
 .features .feature-title {
-    padding: 0 70px 50px;
+    padding: 0 70px 40px;
     font-size: 40px;
     font-weight: 600;
 }
@@ -17,50 +17,29 @@
 .features .feature-cards {
     display: flex;
     justify-content: space-evenly;
-    height: 250px;
-    padding: 0 80px;
+    margin: 20px 40px 40px;
     text-align: center;
 }
 
 .feature-cards .feature-card {
-    display: grid;
-    grid-template-columns: 230px;
-    grid-template-rows: 100px 90px;
-    grid-template-areas: 'img' 'text';
+    flex: 1;
+    padding: 0 20px;
 }
 
-.feature-card .feature-card-img {
-    grid-area: img;
-    overflow: hidden;
-}
-
-.feature-card-img img {
-    width: 220px;
-    height: 100px;
-}
-
-.feature-card .feature-card-text {
-    grid-area: text;
+.feature-card-text h4 {
+    margin-bottom: 5px;
 }
 
 @media only screen and (max-width: 1200px) {
     .features {
         height: auto;
     }
-
-    .features .feature-cards {
-        padding: 0 20px;
-    }
-
-    .feature-cards .feature-card {
-        grid-template-columns: 170px;
-    }
 }
 
 @media only screen and (max-width: 800px) {
     .features .feature-title {
-        padding: 0 70px 20px;
-        font-size: 28px;
+        padding: 0 70px 0;
+        font-size: 32px;
         text-align: center;
     }
 
@@ -73,5 +52,20 @@
     .feature-cards .feature-card {
         display: flex;
         padding: 20px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .features .feature-title {
+        padding: 0 70px 0;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .features .feature-cards {
+        flex-direction: column;
+        height: auto;
+        margin: 20px;
+        text-align: left;
     }
 }

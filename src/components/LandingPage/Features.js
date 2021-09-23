@@ -10,42 +10,30 @@ const Features = () => {
 
     return (
         <div className="features">
-            <div className="feature-title">Make the most of your pantry!</div>
+            <div className="feature-title">The Benefits</div>
             <div className="feature-cards">
                 <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-img">
-                        <img src="https://www.pngkit.com/png/detail/426-4265355_dinner-clipart-black-and-white-free-food-clip.png" />
-                    </div>
                     <div className="feature-card-text">
-                        <h4>Breakfast, Lunch, or Dinner?</h4>
-                        Or steak, or fish, or plant protein.
+                        <h4>Keep everything organized!</h4>
+                        Manage your pantry and shopping list.
                     </div>
                 </div>
                 <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-img">
-                        <img src="https://www.pngkit.com/png/detail/426-4265355_dinner-clipart-black-and-white-free-food-clip.png" />
-                    </div>
                     <div className="feature-card-text">
-                        <h4>On a Budget?</h4>
-                        Skipping weeks or cancelling is super easy
+                        <h4>Want something new to make?</h4>
+                        Search from thousands of different recipes.
                     </div>
                 </div>
                 <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-img">
-                        <img src="https://www.pngkit.com/png/detail/426-4265355_dinner-clipart-black-and-white-free-food-clip.png" />
-                    </div>
                     <div className="feature-card-text">
-                        <h4>Dietary Restrictions? No Problem!</h4>
-                        Our huge recipe selection wows week after week.
+                        <h4>Dietary restrictions? No problem!</h4>
+                        Filter recipes based off of your diet.
                     </div>
                 </div>
                 <div className="feature-card" data-aos="zoom-in">
-                    <div className="feature-card-img">
-                        <img src="https://www.pngkit.com/png/detail/426-4265355_dinner-clipart-black-and-white-free-food-clip.png" />
-                    </div>
                     <div className="feature-card-text">
-                        <h4>Dietary Restrictions? No Problem!</h4>
-                        Chef-created deliciousness from $7.49 per meal.
+                        <h4>Don't want to go to the store?</h4>
+                        Find recipes based off of ingredients in your pantry.
                     </div>
                 </div>
             </div>

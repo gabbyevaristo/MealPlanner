@@ -9,7 +9,7 @@ const Logo = ({ closeMenu }) => {
                 alt="logo"
             />
             <Link to="/" className="logo-link" onClick={closeMenu}>
-                Meal<span>Planner</span>
+                My<span>Kitchen</span>
             </Link>
         </div>
     );

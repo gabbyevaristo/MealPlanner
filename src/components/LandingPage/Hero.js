@@ -15,7 +15,7 @@ const Hero = ({ closeMenu }) => {
             <div className="hero-container">
                 <div className="hero-content">
                     <div className="slogan">
-                        <strong>Make the most of your pantry!</strong>
+                        <strong>Cooking made easy!</strong>
                     </div>
                     {!user && (
                         <Link

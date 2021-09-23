@@ -33,7 +33,7 @@ const GeneralSearch = () => {
                         cuisine,
                         type,
                         diet,
-                        amount: 12,
+                        amount: 24,
                     }),
                 });
                 const data = await res.json();
