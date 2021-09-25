@@ -10,7 +10,7 @@ import usersRoutes from './routes/usersRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.REACT_APP_PORT || 5000;
 
 // Initialize middleware
 const __dirname = dirname(fileURLToPath(import.meta.url));
