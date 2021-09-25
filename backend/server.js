@@ -26,7 +26,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
 app.get('*', (req, res) => {
-    res.sendFile(buildPath);
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
 });
 
 mongoose.connect(
