@@ -49,7 +49,7 @@ router.post('/registerUser', async (req, res) => {
         const savedUser = await newUser.save();
         const token = await jwt.sign(
             { id: savedUser._id.toString() },
-            process.env.REACT_APP_JWT_SECRET
+            process.env.JWT_SECRET
         );
         res.json({
             token,
@@ -76,7 +76,7 @@ router.post('/loginUser', async (req, res) => {
             if (isValid) {
                 const token = await jwt.sign(
                     { id: user._id.toString() },
-                    process.env.REACT_APP_JWT_SECRET
+                    process.env.JWT_SECRET
                 );
                 res.json({
                     token,

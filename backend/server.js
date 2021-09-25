@@ -3,6 +3,7 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,20 +11,26 @@ import usersRoutes from './routes/usersRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
 
 const app = express();
-const PORT = process.env.REACT_APP_PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 // Initialize middleware
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const buildPath = path.join(__dirname, '..', 'build');
-app.use(express.static(buildPath));
+app.use(cors());
 app.use(express.json());
 
 // Add routes
 app.use('/users', usersRoutes);
 app.use('/recipe', recipeRoutes);
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const buildPath = path.join(__dirname, '..', 'build');
+app.use(express.static(buildPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(buildPath);
+});
+
 mongoose.connect(
-    process.env.REACT_APP_MONGO_URI,
+    process.env.MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => console.log('CONNECTED TO DATABASE')
 );
