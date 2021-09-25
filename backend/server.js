@@ -4,6 +4,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 
 import usersRoutes from './routes/usersRoutes.js';
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 5000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
+app.use(cors());
 app.use(express.json());
 
 // Add routes
