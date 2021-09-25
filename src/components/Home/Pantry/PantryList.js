@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IngredientContext, UserContext } from '../../../App';
 import PantryListItem from './PantryListItem';
+import { BASE_API_URL } from '../../../utils/constants';
 import './PantryList.css';
 
 toast.configure();
@@ -17,7 +18,7 @@ const PantryList = () => {
     const [ingredientMatch, setIngredientMatch] = useState([]);
     const [areMatchesOpen, setAreMatchesOpen] = useState(false);
     const [checkedPantryItems, setCheckedPantryItems] = useState([]);
-    const [pantry, setPantry] = useState(user.ownedIngredients);
+    const [pantry, setPantry] = useState(user.userData.ownedIngredients);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -74,16 +75,14 @@ const PantryList = () => {
 
     const addPantryItemToDb = async (ingredient) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/addIngredient/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ ingredient }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/addIngredient`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ ingredient }),
+            });
         } catch (err) {
             console.log(err);
         }
@@ -94,7 +93,7 @@ const PantryList = () => {
             setPantry([...pantry, item]);
             notifySuccess(`${item} added to pantry`);
             const localUser = JSON.parse(localStorage.getItem('user'));
-            localUser.ownedIngredients.push(item);
+            localUser.userData.ownedIngredients.push(item);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
             await addPantryItemToDb(item);
@@ -108,16 +107,14 @@ const PantryList = () => {
 
     const removePantryItemFromDb = async (ingredient) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/deleteIngredient/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ ingredient }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/deleteIngredient`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ ingredient }),
+            });
         } catch (err) {
             console.log(err);
         }
@@ -128,9 +125,10 @@ const PantryList = () => {
         setPantry(items);
         notifyError(`${item} deleted from pantry`);
         const localUser = JSON.parse(localStorage.getItem('user'));
-        localUser.ownedIngredients = localUser.ownedIngredients.filter(
-            (pantryItem) => pantryItem !== item
-        );
+        localUser.userData.ownedIngredients =
+            localUser.userData.ownedIngredients.filter(
+                (pantryItem) => pantryItem !== item
+            );
         localStorage.setItem('user', JSON.stringify(localUser));
         setUser(localUser);
         await removePantryItemFromDb(item);

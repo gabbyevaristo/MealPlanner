@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../../App';
 import RecipeCard from './RecipeCard';
 import Pagination from '../Pagination';
+import { BASE_API_URL } from '../../../utils/constants';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './FilteredRecipes.css';
 
@@ -28,7 +29,7 @@ const FilteredRecipes = () => {
             const loadFilteredRecipes = async () => {
                 setLoading(true);
                 const res = await fetch(
-                    'http://localhost:5000/recipe/findByIngredients',
+                    `${BASE_API_URL}/recipe/findByIngredients`,
                     {
                         method: 'POST',
                         headers: {
@@ -80,8 +81,10 @@ const FilteredRecipes = () => {
                             <RecipeCard
                                 recipe={recipe}
                                 inSavedRecipe={
-                                    user.savedRecipes.length !== 0
-                                        ? user.savedRecipes.includes(recipe.id)
+                                    user.userData.savedRecipes.length !== 0
+                                        ? user.userData.savedRecipes.includes(
+                                              recipe.id
+                                          )
                                         : false
                                 }
                             />

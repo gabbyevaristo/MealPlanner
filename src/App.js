@@ -6,6 +6,7 @@ import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import About from './components/BasicComponents/About';
 import RouteNotFound from './components/BasicComponents/RouteNotFound';
+import { BASE_API_URL } from './utils/constants';
 import './App.css';
 
 export const IngredientContext = createContext();
@@ -21,7 +22,7 @@ function App() {
         try {
             const loadIngredients = async () => {
                 const res = await fetch(
-                    'http://localhost:5000/recipe/getAllIngredients',
+                    `${BASE_API_URL}/recipe/getAllIngredients`,
                     {
                         method: 'GET',
                     }
@@ -80,9 +81,6 @@ function App() {
                     <Route path="/about" exact>
                         <About />
                     </Route>
-                    {/* <Route path="/contact" exact>
-                        <Contact />
-                    </Route> */}
                     <Route component={RouteNotFound} />
                 </Switch>
             </UserContext.Provider>

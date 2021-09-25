@@ -12,11 +12,6 @@ const Footer = () => {
                         About Us
                     </Link>
                 </div>
-                {/* <div className="footer-links">
-                    <Link to="/contact" className="footer-link">
-                        Contact
-                    </Link>
-                </div> */}
             </div>
         </footer>
     );

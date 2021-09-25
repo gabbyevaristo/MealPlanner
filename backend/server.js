@@ -19,7 +19,7 @@ app.use('/users', usersRoutes);
 app.use('/recipe', recipeRoutes);
 
 mongoose.connect(
-    process.env.mongoURI,
+    process.env.MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => console.log('CONNECTED TO DATABASE')
 );

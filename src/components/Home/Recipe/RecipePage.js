@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import { BASE_API_URL } from '../../../utils/constants';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -23,13 +24,10 @@ const RecipePage = () => {
         try {
             const loadRecipe = async () => {
                 setLoading(true);
-                const res = await fetch(
-                    `http://localhost:5000/recipe/${recipeId}`,
-                    {
-                        method: 'GET',
-                        signal: abortCont.signal,
-                    }
-                );
+                const res = await fetch(`${BASE_API_URL}/recipe/${recipeId}`, {
+                    method: 'GET',
+                    signal: abortCont.signal,
+                });
                 const data = await res.json();
                 setRecipe(data);
                 setLoading(false);
@@ -60,10 +58,11 @@ const RecipePage = () => {
 
     const addRecipeToDb = async (recipeId) => {
         try {
-            await fetch(`http://localhost:5000/users/addRecipe/${user.id}`, {
+            await fetch(`${BASE_API_URL}/users/addRecipe`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
                 },
                 body: JSON.stringify({ recipeId }),
             });
@@ -74,10 +73,11 @@ const RecipePage = () => {
 
     const deleteRecipeFromDb = async (recipeId) => {
         try {
-            await fetch(`http://localhost:5000/users/deleteRecipe/${user.id}`, {
+            await fetch(`${BASE_API_URL}/users/deleteRecipe`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
                 },
                 body: JSON.stringify({ recipeId }),
             });
@@ -87,19 +87,20 @@ const RecipePage = () => {
     };
 
     const handleSavedRecipe = async (recipe) => {
-        if (!user.savedRecipes.includes(recipe.id)) {
+        if (!user.userData.savedRecipes.includes(recipe.id)) {
             notifySuccess(`${recipe.title} saved`);
             const localUser = JSON.parse(localStorage.getItem('user'));
-            localUser.savedRecipes.push(recipe.id);
+            localUser.userData.savedRecipes.push(recipe.id);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
             await addRecipeToDb(recipe.id);
         } else {
             notifyError(`${recipe.title} unsaved`);
             const localUser = JSON.parse(localStorage.getItem('user'));
-            localUser.savedRecipes = localUser.savedRecipes.filter(
-                (savedRecipe) => savedRecipe !== recipe.id
-            );
+            localUser.userData.savedRecipes =
+                localUser.userData.savedRecipes.filter(
+                    (savedRecipe) => savedRecipe !== recipe.id
+                );
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
             await deleteRecipeFromDb(recipe.id);
@@ -108,16 +109,14 @@ const RecipePage = () => {
 
     const addShoppingItemToDb = async (item) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/addShoppingList/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ item }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/addShoppingList`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ item }),
+            });
         } catch (err) {
             console.log(err);
         }
@@ -126,7 +125,7 @@ const RecipePage = () => {
     const handleAddShoppingItems = async (items) => {
         const localUser = JSON.parse(localStorage.getItem('user'));
         for (const item of items) {
-            localUser.shoppingList.push(item);
+            localUser.userData.shoppingList.push(item);
         }
         localStorage.setItem('user', JSON.stringify(localUser));
         console.log(localUser);
@@ -142,8 +141,8 @@ const RecipePage = () => {
         );
         const missingIngredients = ingredients.filter(
             (ingredient) =>
-                !user.ownedIngredients.includes(ingredient) &&
-                !user.shoppingList.includes(ingredient)
+                !user.userData.ownedIngredients.includes(ingredient) &&
+                !user.userData.shoppingList.includes(ingredient)
         );
         await handleAddShoppingItems(missingIngredients);
         notifySuccess('Missing ingredients added to shopping list');
@@ -163,18 +162,21 @@ const RecipePage = () => {
                 </div>
                 <button
                     className={`btn-handle-saved-recipe ${
-                        recipe && !user.savedRecipes.includes(recipe.id)
+                        recipe &&
+                        !user.userData.savedRecipes.includes(recipe.id)
                             ? 'not-saved'
                             : 'saved'
                     }`}
                     title={`${
-                        recipe && !user.savedRecipes.includes(recipe.id)
+                        recipe &&
+                        !user.userData.savedRecipes.includes(recipe.id)
                             ? 'Save'
                             : 'Unsave'
                     }`}
                     onClick={() => handleSavedRecipe(recipe)}
                 >
-                    {recipe && !user.savedRecipes.includes(recipe.id) ? (
+                    {recipe &&
+                    !user.userData.savedRecipes.includes(recipe.id) ? (
                         <i className="fa fa-heart fa-3x"></i>
                     ) : (
                         <i className="fa fa-heart fa-3x"></i>

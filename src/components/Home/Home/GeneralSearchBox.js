@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './GeneralSearchBox.css';
 
 const GeneralSearchBox = () => {
-    const history = useHistory();
-
     const [recipeSearch, setRecipeSearch] = useState('');
     const [cuisineValue, setCuisineValue] = useState('');
     const [mealTypeValue, setMealTypeValue] = useState('');

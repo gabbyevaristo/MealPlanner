@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import Footer from './Footer';
 import './About.css';
 
 const About = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="about">
             <div className="about-img-container">

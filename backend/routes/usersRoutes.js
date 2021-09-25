@@ -1,6 +1,10 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import auth from '../middleware/auth.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
@@ -15,11 +19,11 @@ router.get('/getUsers', async (req, res) => {
 });
 
 // Get a specific user
-router.get('/getUser/:id', async (req, res) => {
+router.get('/getUser', auth, async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.user.id).select('-password');
         if (!user) {
-            throw new Error(`User with ID: ${req.params.id} does not exist`);
+            throw new Error(`User with ID: ${req.user.id} does not exist`);
         }
         res.json(user);
     } catch (err) {
@@ -43,12 +47,19 @@ router.post('/registerUser', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         const savedUser = await newUser.save();
+        const token = await jwt.sign(
+            { id: savedUser._id.toString() },
+            process.env.JWT_SECRET
+        );
         res.json({
-            id: savedUser._id.toString(),
-            name: savedUser.name,
-            ownedIngredients: savedUser.ownedIngredients,
-            savedRecipes: savedUser.savedRecipes,
-            shoppingList: savedUser.shoppingList,
+            token,
+            userData: {
+                id: savedUser._id.toString(),
+                name: savedUser.name,
+                ownedIngredients: savedUser.ownedIngredients,
+                savedRecipes: savedUser.savedRecipes,
+                shoppingList: savedUser.shoppingList,
+            },
         });
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -63,12 +74,19 @@ router.post('/loginUser', async (req, res) => {
         if (user) {
             const isValid = await bcrypt.compare(password, user.password);
             if (isValid) {
+                const token = await jwt.sign(
+                    { id: user._id.toString() },
+                    process.env.JWT_SECRET
+                );
                 res.json({
-                    id: user._id.toString(),
-                    name: user.name,
-                    ownedIngredients: user.ownedIngredients,
-                    savedRecipes: user.savedRecipes,
-                    shoppingList: user.shoppingList,
+                    token,
+                    userData: {
+                        id: user._id.toString(),
+                        name: user.name,
+                        ownedIngredients: user.ownedIngredients,
+                        savedRecipes: user.savedRecipes,
+                        shoppingList: user.shoppingList,
+                    },
                 });
             } else {
                 throw new Error(`Wrong email or password`);
@@ -82,14 +100,14 @@ router.post('/loginUser', async (req, res) => {
 });
 
 // Delete user
-router.delete('/deleteUser/:id', async (req, res) => {
+router.delete('/deleteUser', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.user.id);
         if (!user) {
-            throw new Error(`User with ID: ${req.params.id} does not exist`);
+            throw new Error(`User with ID: ${req.user.id} does not exist`);
         }
         const removedUser = await User.deleteOne({
-            _id: req.params.id,
+            _id: req.user.id,
         });
         res.json(removedUser);
     } catch (err) {
@@ -100,9 +118,9 @@ router.delete('/deleteUser/:id', async (req, res) => {
 // Edit password
 
 // Get user's ingredients
-router.get('/getIngredients/:id', async (req, res) => {
+router.get('/getIngredients', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.params.id });
+        const user = await User.findOne({ _id: req.user.id });
         const ingredients = user.ownedIngredients;
         res.json(ingredients);
     } catch (err) {
@@ -111,11 +129,11 @@ router.get('/getIngredients/:id', async (req, res) => {
 });
 
 // Add to ingredients list
-router.put('/addIngredient/:id', async (req, res) => {
+router.put('/addIngredient', auth, async (req, res) => {
     try {
         const { ingredient } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $addToSet: {
                     ownedIngredients: [ingredient],
@@ -129,11 +147,11 @@ router.put('/addIngredient/:id', async (req, res) => {
 });
 
 // Remove from ingredients list
-router.put('/deleteIngredient/:id', async (req, res) => {
+router.put('/deleteIngredient', auth, async (req, res) => {
     try {
         const { ingredient } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $pull: {
                     ownedIngredients: ingredient,
@@ -147,9 +165,9 @@ router.put('/deleteIngredient/:id', async (req, res) => {
 });
 
 // Get user's saved recipes
-router.get('/getRecipes/:id', async (req, res) => {
+router.get('/getRecipes', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.params.id });
+        const user = await User.findOne({ _id: req.user.id });
         const savedRecipes = user.savedRecipes;
         res.json(savedRecipes);
     } catch (err) {
@@ -158,11 +176,11 @@ router.get('/getRecipes/:id', async (req, res) => {
 });
 
 // Add to saved recipes
-router.put('/addRecipe/:id', async (req, res) => {
+router.put('/addRecipe', auth, async (req, res) => {
     try {
         const { recipeId } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $addToSet: {
                     savedRecipes: [recipeId],
@@ -176,11 +194,11 @@ router.put('/addRecipe/:id', async (req, res) => {
 });
 
 // Remove from saved recipes
-router.put('/deleteRecipe/:id', async (req, res) => {
+router.put('/deleteRecipe', auth, async (req, res) => {
     try {
         const { recipeId } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $pull: {
                     savedRecipes: recipeId,
@@ -194,9 +212,9 @@ router.put('/deleteRecipe/:id', async (req, res) => {
 });
 
 // Get user shopping list
-router.get('/getShoppingList/:id', async (req, res) => {
+router.get('/getShoppingList', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.params.id });
+        const user = await User.findOne({ _id: req.user.id });
         const shoppingList = user.shoppingList;
         res.json(shoppingList);
     } catch (err) {
@@ -205,11 +223,11 @@ router.get('/getShoppingList/:id', async (req, res) => {
 });
 
 // Add to shopping list
-router.put('/addShoppingList/:id', async (req, res) => {
+router.put('/addShoppingList', auth, async (req, res) => {
     try {
         const { item } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $addToSet: {
                     shoppingList: [item],
@@ -223,11 +241,11 @@ router.put('/addShoppingList/:id', async (req, res) => {
 });
 
 // Remove from shopping list
-router.put('/deleteShoppingList/:id', async (req, res) => {
+router.put('/deleteShoppingList', auth, async (req, res) => {
     try {
         const { item } = req.body;
         const updatedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user.id },
             {
                 $pull: {
                     shoppingList: item,

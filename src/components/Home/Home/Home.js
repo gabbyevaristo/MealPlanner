@@ -10,7 +10,7 @@ const Home = () => {
     return (
         <div className="home">
             <div className="home-welcome">
-                Welcome {user.name.split(' ')[0]}
+                Welcome {user.userData.name.split(' ')[0]}
             </div>
             <div className="home-general-search-container">
                 <GeneralSearchBox />

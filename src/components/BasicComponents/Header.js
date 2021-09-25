@@ -19,10 +19,13 @@ const Header = ({ handleSignOut }) => {
     const handleClickOutside = (e) => {
         const { current: wrap } = wrapperRef;
         if (
-            wrap &&
-            !wrap.contains(e.target) &&
-            !e.target.className === 'btn-dropdown'
+            e.target.className === 'btn-dropdown' ||
+            e.target.className === 'dropdown-bar' ||
+            e.target.className === 'dropdown-bar dropdown-clicked'
         ) {
+            return;
+        }
+        if (wrap && !wrap.contains(e.target)) {
             setIsMenuOpen(false);
         }
     };

@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import RecipeCard from '../Recipe/RecipeCard';
 import Pagination from '../Pagination';
+import { BASE_API_URL } from '../../../utils/constants';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './GeneralSearch.css';
 
@@ -23,7 +24,7 @@ const GeneralSearch = () => {
         try {
             const loadRecipes = async () => {
                 setLoading(true);
-                const res = await fetch(`http://localhost:5000/recipe`, {
+                const res = await fetch(`${BASE_API_URL}/recipe`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

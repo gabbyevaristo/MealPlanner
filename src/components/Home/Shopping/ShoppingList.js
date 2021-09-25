@@ -3,6 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IngredientContext, UserContext } from '../../../App';
 import ShoppingListItem from './ShoppingListItem';
+import { BASE_API_URL } from '../../../utils/constants';
 import './ShoppingList.css';
 
 toast.configure();
@@ -15,7 +16,9 @@ const ShoppingList = () => {
     const [ingredientInput, setIngredientInput] = useState('');
     const [ingredientMatch, setIngredientMatch] = useState([]);
     const [areMatchesOpen, setAreMatchesOpen] = useState(false);
-    const [shoppingList, setShoppingList] = useState(user.shoppingList);
+    const [shoppingList, setShoppingList] = useState(
+        user.userData.shoppingList
+    );
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -72,16 +75,14 @@ const ShoppingList = () => {
 
     const addShoppingItemToDb = async (item) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/addShoppingList/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ item }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/addShoppingList`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ item }),
+            });
         } catch (err) {
             console.log(err);
         }
@@ -92,7 +93,7 @@ const ShoppingList = () => {
             setShoppingList([...shoppingList, item]);
             notifySuccess(`${item} added to shopping list`);
             const localUser = JSON.parse(localStorage.getItem('user'));
-            localUser.shoppingList.push(item);
+            localUser.userData.shoppingList.push(item);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
             await addShoppingItemToDb(item);
@@ -106,16 +107,14 @@ const ShoppingList = () => {
 
     const removeShoppingItemFromDb = async (item) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/deleteShoppingList/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ item }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/deleteShoppingList`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ item }),
+            });
         } catch (err) {
             console.log(err);
         }
@@ -128,9 +127,10 @@ const ShoppingList = () => {
         setShoppingList(items);
         notifyError(`${item} deleted from shopping list`);
         const localUser = JSON.parse(localStorage.getItem('user'));
-        localUser.shoppingList = localUser.shoppingList.filter(
-            (shoppingListItem) => shoppingListItem !== item
-        );
+        localUser.userData.shoppingList =
+            localUser.userData.shoppingList.filter(
+                (shoppingListItem) => shoppingListItem !== item
+            );
         localStorage.setItem('user', JSON.stringify(localUser));
         setUser(localUser);
         await removeShoppingItemFromDb(item);
@@ -138,25 +138,23 @@ const ShoppingList = () => {
 
     const addPantryItemToDb = async (ingredient) => {
         try {
-            await fetch(
-                `http://localhost:5000/users/addIngredient/${user.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ ingredient }),
-                }
-            );
+            await fetch(`${BASE_API_URL}/users/addIngredient`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ ingredient }),
+            });
         } catch (err) {
             console.log(err);
         }
     };
 
     const handleAddPantryItem = async (item) => {
-        if (!user.ownedIngredients.includes(item)) {
+        if (!user.userData.ownedIngredients.includes(item)) {
             const localUser = JSON.parse(localStorage.getItem('user'));
-            localUser.ownedIngredients.push(item);
+            localUser.userData.ownedIngredients.push(item);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
             await addPantryItemToDb(item);
