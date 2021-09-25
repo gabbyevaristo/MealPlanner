@@ -2,6 +2,10 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// const jwt = require('jsonwebtoken');
+// const dotenv = require('dotenv');
+// dotenv.config();
+
 function auth(req, res, next) {
     const token = req.header('x-auth-token');
 
@@ -26,3 +30,4 @@ function auth(req, res, next) {
 }
 
 export default auth;
+// module.exports = auth;

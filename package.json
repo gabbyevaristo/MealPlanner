@@ -9,8 +9,8 @@
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "author": "",
-    "type": "module",
     "license": "ISC",
+    "type": "module",
     "dependencies": {
         "@babel/core": "^7.15.5",
         "@babel/preset-env": "^7.15.6",

@@ -6,6 +6,14 @@ import auth from '../middleware/auth.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// const express = require('express');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+// const User = require('../models/User.js');
+// const auth = require('../middleware/auth.js');
+// const dotenv = require('dotenv');
+// dotenv.config();
+
 const router = express.Router();
 
 // Get all users
@@ -259,3 +267,4 @@ router.put('/deleteShoppingList', auth, async (req, res) => {
 });
 
 export default router;
+// module.exports = router;
