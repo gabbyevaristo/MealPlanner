@@ -7,8 +7,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import usersRoutes from './backend/routes/usersRoutes.js';
-import recipeRoutes from './backend/routes/recipeRoutes.js';
+import usersRoutes from './routes/usersRoutes.js';
+import recipeRoutes from './routes/recipeRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
