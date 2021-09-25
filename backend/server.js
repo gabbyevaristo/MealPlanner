@@ -1,5 +1,7 @@
 import express from 'express';
-import cors from 'cors';
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -11,7 +13,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Initialize middleware
-app.use(cors());
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const buildPath = path.join(__dirname, '..', 'build');
+app.use(express.static(buildPath));
 app.use(express.json());
 
 // Add routes
