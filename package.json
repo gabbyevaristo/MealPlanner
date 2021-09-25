@@ -12,6 +12,9 @@
     "type": "module",
     "license": "ISC",
     "dependencies": {
+        "@babel/core": "^7.15.5",
+        "@babel/preset-env": "^7.15.6",
+        "@babel/register": "^7.15.3",
         "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
