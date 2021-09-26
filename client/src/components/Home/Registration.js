@@ -6,7 +6,7 @@ const Registration = () => {
         <div className="registration-container">
             <div className="registration-content">
                 <div className="registration-title">
-                    <strong>Thanks for registering.</strong>
+                    <strong>Thanks for registering!</strong>
                 </div>
                 <div className="registration-links">
                     Search for recipes on your {''}
