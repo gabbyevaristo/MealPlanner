@@ -38,7 +38,7 @@ mongoose.connect(
 app.use('/users', usersRoutes);
 app.use('/recipe', recipeRoutes);
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildPath = path.join(__dirname, 'client/build');
 app.use(express.static(buildPath));
 
