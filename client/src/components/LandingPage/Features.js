@@ -32,7 +32,7 @@ const Features = () => {
                 </div>
                 <div className="feature-card" data-aos="zoom-in">
                     <div className="feature-card-text">
-                        <h4>Don't want to go to the store?</h4>
+                        <h4>Tired of takeout?</h4>
                         Find recipes based off of ingredients in your pantry.
                     </div>
                 </div>
