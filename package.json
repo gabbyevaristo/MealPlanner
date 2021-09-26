@@ -22,8 +22,7 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.0.5",
         "node-fetch": "^3.0.0",
-        "nodemon": "^2.0.12",
-        "stream-json": "^1.7.2"
+        "nodemon": "^2.0.12"
     },
     "engines": {
         "node": "10.x"
