@@ -16,7 +16,7 @@ function auth(req, res, next) {
 
     try {
         // Verify token
-        const decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Take user id from token and put it in req.user, so whenever the
         // token is sent, we have the user stored in req value
