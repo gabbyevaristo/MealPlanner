@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
-import { BASE_API_URL } from '../../../utils/constants';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -24,7 +23,7 @@ const RecipePage = () => {
         try {
             const loadRecipe = async () => {
                 setLoading(true);
-                const res = await fetch(`${BASE_API_URL}/recipe/${recipeId}`, {
+                const res = await fetch(`/recipe/${recipeId}`, {
                     method: 'GET',
                     signal: abortCont.signal,
                 });
@@ -58,7 +57,7 @@ const RecipePage = () => {
 
     const addRecipeToDb = async (recipeId) => {
         try {
-            await fetch(`${BASE_API_URL}/users/addRecipe`, {
+            await fetch(`/users/addRecipe`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +72,7 @@ const RecipePage = () => {
 
     const deleteRecipeFromDb = async (recipeId) => {
         try {
-            await fetch(`${BASE_API_URL}/users/deleteRecipe`, {
+            await fetch(`/users/deleteRecipe`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,7 +108,7 @@ const RecipePage = () => {
 
     const addShoppingItemToDb = async (item) => {
         try {
-            await fetch(`${BASE_API_URL}/users/addShoppingList`, {
+            await fetch(`/users/addShoppingList`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

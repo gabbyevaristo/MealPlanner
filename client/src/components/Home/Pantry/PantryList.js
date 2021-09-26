@@ -4,7 +4,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IngredientContext, UserContext } from '../../../App';
 import PantryListItem from './PantryListItem';
-import { BASE_API_URL } from '../../../utils/constants';
 import './PantryList.css';
 
 toast.configure();
@@ -75,7 +74,7 @@ const PantryList = () => {
 
     const addPantryItemToDb = async (ingredient) => {
         try {
-            await fetch(`${BASE_API_URL}/users/addIngredient`, {
+            await fetch(`/users/addIngredient`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,7 +106,7 @@ const PantryList = () => {
 
     const removePantryItemFromDb = async (ingredient) => {
         try {
-            await fetch(`${BASE_API_URL}/users/deleteIngredient`, {
+            await fetch(`/users/deleteIngredient`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

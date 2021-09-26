@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { BASE_API_URL } from '../../utils/constants';
 import './SignIn.css';
 
 const SignIn = ({ handleSignIn }) => {
@@ -19,7 +18,7 @@ const SignIn = ({ handleSignIn }) => {
     };
 
     const fetchLogin = async () => {
-        const res = await fetch(`${BASE_API_URL}/users/loginUser`, {
+        const res = await fetch(`/users/loginUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

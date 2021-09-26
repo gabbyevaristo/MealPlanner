@@ -6,7 +6,6 @@ import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import About from './components/BasicComponents/About';
 import RouteNotFound from './components/BasicComponents/RouteNotFound';
-import { BASE_API_URL } from './utils/constants';
 import './App.css';
 
 export const IngredientContext = createContext();
@@ -21,12 +20,9 @@ function App() {
     useEffect(() => {
         try {
             const loadIngredients = async () => {
-                const res = await fetch(
-                    `${BASE_API_URL}/recipe/getAllIngredients`,
-                    {
-                        method: 'GET',
-                    }
-                );
+                const res = await fetch(`/recipe/getAllIngredients`, {
+                    method: 'GET',
+                });
                 const data = await res.json();
                 setIngredients(data);
             };

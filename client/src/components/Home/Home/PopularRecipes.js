@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import RecipeCard from '../Recipe/RecipeCard';
-import { BASE_API_URL } from '../../../utils/constants';
 import './PopularRecipes.css';
 
 const PopularRecipes = () => {
@@ -9,7 +8,7 @@ const PopularRecipes = () => {
     useEffect(() => {
         try {
             const loadPopularRecipes = async () => {
-                const res = await fetch(`${BASE_API_URL}/recipe/random`, {
+                const res = await fetch(`/recipe/random`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

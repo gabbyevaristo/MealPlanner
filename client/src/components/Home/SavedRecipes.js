@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../App';
 import RecipeCard from './Recipe/RecipeCard';
 import Pagination from './Pagination';
-import { BASE_API_URL } from '../../utils/constants';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './SavedRecipes.css';
 
@@ -28,12 +27,9 @@ const SavedRecipes = () => {
                     setLoading(true);
                     const data = await Promise.all(
                         user.userData.savedRecipes.map(async (recipeId) => {
-                            const res = await fetch(
-                                `${BASE_API_URL}/recipe/${recipeId}`,
-                                {
-                                    method: 'GET',
-                                }
-                            );
+                            const res = await fetch(`/recipe/${recipeId}`, {
+                                method: 'GET',
+                            });
                             const recipe = await res.json();
                             return recipe;
                         })

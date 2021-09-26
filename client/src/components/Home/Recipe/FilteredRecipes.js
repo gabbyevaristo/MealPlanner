@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../../App';
 import RecipeCard from './RecipeCard';
 import Pagination from '../Pagination';
-import { BASE_API_URL } from '../../../utils/constants';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './FilteredRecipes.css';
 
@@ -28,16 +27,13 @@ const FilteredRecipes = () => {
         try {
             const loadFilteredRecipes = async () => {
                 setLoading(true);
-                const res = await fetch(
-                    `${BASE_API_URL}/recipe/findByIngredients`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ ingredients, amount: 18 }),
-                    }
-                );
+                const res = await fetch(`/recipe/findByIngredients`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ingredients, amount: 18 }),
+                });
                 const data = await res.json();
                 setFilteredRecipes(data);
                 setLoading(false);
