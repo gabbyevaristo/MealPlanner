@@ -1,23 +1,23 @@
-// import express from 'express';
-// import path from 'path';
-// import mongoose from 'mongoose';
-// import cors from 'cors';
-// import dotenv from 'dotenv';
-// dotenv.config();
-// import { dirname } from 'path';
-// import { fileURLToPath } from 'url';
-
-// import usersRoutes from './routes/usersRoutes.js';
-// import recipeRoutes from './routes/recipeRoutes.js';
-
-const express = require('express');
-const path = require('path');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import path from 'path';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 dotenv.config();
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const usersRoutes = require('./routes/usersRoutes.js');
+import usersRoutes from './routes/usersRoutes.js';
+import recipeRoutes from './routes/recipeRoutes.js';
+
+// const express = require('express');
+// const path = require('path');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const dotenv = require('dotenv');
+// dotenv.config();
+
+// const usersRoutes = require('./routes/usersRoutes.js');
 // const recipeRoutes = require('./routes/recipeRoutes.js');
 
 const app = express();

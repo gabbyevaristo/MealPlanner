@@ -1,7 +1,7 @@
-// import express from 'express';
-// import fetch from 'node-fetch';
-const express = require('express');
-const fetch = require('node-fetch');
+import express from 'express';
+import fetch from 'node-fetch';
+// const express = require('express');
+// const fetch = require('node-fetch');
 
 const router = express.Router();
 
@@ -88,8 +88,8 @@ router.post('/findByIngredients', async (req, res) => {
     }
 });
 
-module.exports = router;
-// export default router;
+// module.exports = router;
+export default router;
 
 // import express from 'express';
 // import fetch from 'node-fetch';
