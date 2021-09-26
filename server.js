@@ -38,6 +38,15 @@ mongoose.connect(
 app.use('/users', usersRoutes);
 app.use('/recipe', recipeRoutes);
 
+app.use(function (req, res, next) {
+    if (!req.secure) {
+        return res.redirect(
+            ['https://', req.get('Host'), req.baseUrl].join('')
+        );
+    }
+    next();
+});
+
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildPath = path.join(__dirname, 'client/build');
 app.use(express.static(buildPath));
