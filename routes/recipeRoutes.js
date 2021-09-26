@@ -1,13 +1,14 @@
 // import express from 'express';
 // import fetch from 'node-fetch';
 const express = require('express');
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
+const axios = require('axios');
 
 const router = express.Router();
 
 const getIngredients = async () => {
     try {
-        const ingredientsInfo = await fetch(
+        const ingredientsInfo = await axios(
             'https://world.openfoodfacts.org/ingredients.json'
         );
         const data = await ingredientsInfo.json();
@@ -37,7 +38,7 @@ router.get('/getAllIngredients', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { search } = req.body;
-        const recipes = await fetch(
+        const recipes = await axios(
             `https://api.spoonacular.com/recipes/complexSearch?apiKey=fb7c210376f8428fbb29a5e78bda5cf0&query=${search}&number=20`
         );
         const data = await recipes.json();
@@ -50,7 +51,7 @@ router.post('/', async (req, res) => {
 // Get recipe based off of ID
 router.get('/:id', async (req, res) => {
     try {
-        const recipe = await fetch(
+        const recipe = await axios(
             `https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=fb7c210376f8428fbb29a5e78bda5cf0&includeNutrition=false`
         );
         const data = await recipe.json();
@@ -64,7 +65,7 @@ router.get('/:id', async (req, res) => {
 router.post('/random', async (req, res) => {
     try {
         const { amount, tags } = req.body;
-        const recipes = await fetch(
+        const recipes = await axios(
             `https://api.spoonacular.com/recipes/random?apiKey=fb7c210376f8428fbb29a5e78bda5cf0&number=${amount}&tags=${tags}`
         );
         const data = await recipes.json();
@@ -78,7 +79,7 @@ router.post('/random', async (req, res) => {
 router.post('/findByIngredients', async (req, res) => {
     try {
         const { ingredients, amount } = req.body;
-        const recipes = await fetch(
+        const recipes = await axios(
             `https://api.spoonacular.com/recipes/findByIngredients?apiKey=fb7c210376f8428fbb29a5e78bda5cf0&ingredients=${ingredients}&number=${amount}`
         );
         const data = await recipes.json();
