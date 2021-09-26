@@ -105,8 +105,8 @@ const getIngredients = async () => {
         const ingredientsInfo = await axios.get(
             'https://world.openfoodfacts.org/ingredients.json'
         );
-        const data = await ingredientsInfo.json();
-        const ingredients = data.tags
+        // const data = await ingredientsInfo.json();
+        const ingredients = ingredientsInfo.data.tags
             .map((ingredient) => ingredient.name)
             .filter((ingredient) => !ingredient.includes('-'))
             .filter((ingredient) => !ingredient.includes(':'));
@@ -135,8 +135,8 @@ router.post('/', async (req, res) => {
         const recipes = await axios.get(
             `https://api.spoonacular.com/recipes/complexSearch?apiKey=9c220663160041f38ec55a6cfaddc642&query=${query}&cuisine=${cuisine}&type=${type}&diet=${diet}&number=${amount}`
         );
-        const data = await recipes.json();
-        res.json(data);
+        // const data = await recipes.json();
+        res.json(recipes.data);
     } catch (err) {
         res.json({ msg: 'Server error' });
     }
@@ -148,8 +148,8 @@ router.get('/:id', async (req, res) => {
         const recipe = await axios.get(
             `https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=9c220663160041f38ec55a6cfaddc642&includeNutrition=false`
         );
-        const data = await recipe.json();
-        res.json(data);
+        // const data = await recipe.json();
+        res.json(recipe.data);
     } catch (err) {
         res.json({ msg: 'Server error' });
     }
@@ -162,8 +162,8 @@ router.post('/random', async (req, res) => {
         const recipes = await axios.get(
             `https://api.spoonacular.com/recipes/random?apiKey=9c220663160041f38ec55a6cfaddc642&number=${amount}&tags=${tags}`
         );
-        const data = await recipes.json();
-        res.json(data.recipes);
+        // const data = await recipes.json();
+        res.json(recipes.data.recipes);
     } catch (err) {
         res.json({ msg: 'Server error' });
     }
@@ -176,8 +176,8 @@ router.post('/findByIngredients', async (req, res) => {
         const recipes = await axios.get(
             `https://api.spoonacular.com/recipes/findByIngredients?apiKey=9c220663160041f38ec55a6cfaddc642&ingredients=${ingredients}&number=${amount}`
         );
-        const data = await recipes.json();
-        res.json(data);
+        // const data = await recipes.json();
+        res.json(recipes.data);
     } catch (err) {
         res.json({ msg: 'Server error' });
     }
