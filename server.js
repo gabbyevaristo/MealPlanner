@@ -22,6 +22,8 @@ const usersRoutes = require('./routes/usersRoutes.js');
 const recipeRoutes = require('./routes/recipeRoutes.js');
 
 const app = express();
+app.enable('trust proxy');
+
 const PORT = process.env.PORT || 5000;
 
 // Initialize middleware
@@ -39,7 +41,10 @@ app.use('/users', usersRoutes);
 app.use('/recipe', recipeRoutes);
 
 app.use(function (req, res, next) {
-    if (!req.secure) {
+    if (
+        req.get('X-Forwarded-Proto') != 'https' &&
+        req.get('X-Forwarded-Port') != '443'
+    ) {
         return res.redirect(
             ['https://', req.get('Host'), req.baseUrl].join('')
         );
