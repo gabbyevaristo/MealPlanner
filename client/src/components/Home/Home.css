@@ -5,7 +5,7 @@
 
 .home .home-welcome {
     padding-top: 20px;
-    font-size: 32px;
+    font-size: var(--home-title-font-size);
     font-weight: 700;
 }
 
