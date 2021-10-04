@@ -62,6 +62,7 @@ const SignUp = ({ handleSignUp }) => {
                     setIsEmailValid(true);
                     setArePasswordsEqual(false);
                 }
+
                 setPassword('');
                 setConfirmedPassword('');
             }

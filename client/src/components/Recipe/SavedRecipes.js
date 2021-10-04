@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../App';
-import RecipeCard from './Recipe/RecipeCard';
-import Pagination from './Pagination';
+import RecipeCard from './RecipeCard';
+import Pagination from '../BasicComponents/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './SavedRecipes.css';
 
@@ -20,11 +20,13 @@ const SavedRecipes = () => {
         indexOfLastRecipe
     );
 
+    // Load user's saved recipes
     useEffect(() => {
         if (user.userData.savedRecipes.length !== 0) {
             try {
                 const loadSavedRecipes = async () => {
                     setLoading(true);
+
                     const data = await Promise.all(
                         user.userData.savedRecipes.map(async (recipeId) => {
                             const res = await fetch(`/recipe/${recipeId}`, {
@@ -34,6 +36,7 @@ const SavedRecipes = () => {
                             return recipe;
                         })
                     );
+
                     setSavedRecipesObject(data);
                     setLoading(false);
                 };

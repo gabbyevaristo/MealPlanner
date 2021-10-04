@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import RecipeCard from '../Recipe/RecipeCard';
-import Pagination from '../Pagination';
+import Pagination from '../BasicComponents/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './GeneralSearch.css';
 

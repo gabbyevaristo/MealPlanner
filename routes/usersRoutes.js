@@ -1,11 +1,3 @@
-// import express from 'express';
-// import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
-// import User from '../models/User.js';
-// import auth from '../middleware/auth.js';
-// import dotenv from 'dotenv';
-// dotenv.config();
-
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -44,6 +36,9 @@ router.post('/registerUser', async (req, res) => {
     try {
         const { name, email, password, confirmedPassword } = req.body;
         const user = await User.findOne({ email: email });
+
+        // Status error if email exists or password and confirmed
+        // password are not equal
         if (user) {
             res.status(400).json({ msg: `EMAIL_EXISTS` });
             return;
@@ -52,13 +47,19 @@ router.post('/registerUser', async (req, res) => {
             res.status(400).json({ msg: 'MISMATCHED_PWDS' });
             return;
         }
+
+        // Create a new user with the specified name, email, and hashed
+        // password
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         const savedUser = await newUser.save();
+
+        // Create a JWT token
         const token = await jwt.sign(
             { id: savedUser._id.toString() },
             process.env.JWT_SECRET
         );
+
         res.json({
             token,
             userData: {
@@ -78,14 +79,21 @@ router.post('/registerUser', async (req, res) => {
 router.post('/loginUser', async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Find user with the specified email
         const user = await User.findOne({ email });
+
+        // If email exists, check if the passwords match
         if (user) {
             const isValid = await bcrypt.compare(password, user.password);
+
             if (isValid) {
+                // Get JWT token
                 const token = await jwt.sign(
                     { id: user._id.toString() },
                     process.env.JWT_SECRET
                 );
+
                 res.json({
                     token,
                     userData: {
@@ -114,21 +122,21 @@ router.delete('/deleteUser', async (req, res) => {
         if (!user) {
             throw new Error(`User with ID: ${req.user.id} does not exist`);
         }
+
         const removedUser = await User.deleteOne({
             _id: req.user.id,
         });
+
         res.json(removedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
 });
 
-// Edit password
-
 // Get user's ingredients
 router.get('/getIngredients', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.user.id });
+        const user = await User.findById(req.user.id);
         const ingredients = user.ownedIngredients;
         res.json(ingredients);
     } catch (err) {
@@ -140,6 +148,7 @@ router.get('/getIngredients', auth, async (req, res) => {
 router.put('/addIngredient', auth, async (req, res) => {
     try {
         const { ingredient } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -148,6 +157,7 @@ router.put('/addIngredient', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -158,6 +168,7 @@ router.put('/addIngredient', auth, async (req, res) => {
 router.put('/deleteIngredient', auth, async (req, res) => {
     try {
         const { ingredient } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -166,6 +177,7 @@ router.put('/deleteIngredient', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -175,7 +187,7 @@ router.put('/deleteIngredient', auth, async (req, res) => {
 // Get user's saved recipes
 router.get('/getRecipes', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.user.id });
+        const user = await User.findById(req.user.id);
         const savedRecipes = user.savedRecipes;
         res.json(savedRecipes);
     } catch (err) {
@@ -187,6 +199,7 @@ router.get('/getRecipes', auth, async (req, res) => {
 router.put('/addRecipe', auth, async (req, res) => {
     try {
         const { recipeId } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -195,6 +208,7 @@ router.put('/addRecipe', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -205,6 +219,7 @@ router.put('/addRecipe', auth, async (req, res) => {
 router.put('/deleteRecipe', auth, async (req, res) => {
     try {
         const { recipeId } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -213,6 +228,7 @@ router.put('/deleteRecipe', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -222,7 +238,7 @@ router.put('/deleteRecipe', auth, async (req, res) => {
 // Get user shopping list
 router.get('/getShoppingList', auth, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.user.id });
+        const user = await User.findById(req.user.id);
         const shoppingList = user.shoppingList;
         res.json(shoppingList);
     } catch (err) {
@@ -234,6 +250,7 @@ router.get('/getShoppingList', auth, async (req, res) => {
 router.put('/addShoppingList', auth, async (req, res) => {
     try {
         const { item } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -242,6 +259,7 @@ router.put('/addShoppingList', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
@@ -252,6 +270,7 @@ router.put('/addShoppingList', auth, async (req, res) => {
 router.put('/deleteShoppingList', auth, async (req, res) => {
     try {
         const { item } = req.body;
+
         const updatedUser = await User.updateOne(
             { _id: req.user.id },
             {
@@ -260,11 +279,11 @@ router.put('/deleteShoppingList', auth, async (req, res) => {
                 },
             }
         );
+
         res.json(updatedUser);
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }
 });
 
-// export default router;
 module.exports = router;

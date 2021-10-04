@@ -1,7 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
-import SignIn from './LogIn/SignIn';
-import SignUp from './LogIn/SignUp';
-import RouteNotFound from './BasicComponents/RouteNotFound';
+import { SignIn, SignUp } from './LogIn';
+import { RouteNotFound } from './BasicComponents';
 
 const UnauthenticatedRoute = ({ handleSignIn, handleSignUp }) => {
     return (

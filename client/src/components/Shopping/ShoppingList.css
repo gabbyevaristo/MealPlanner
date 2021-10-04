@@ -2,7 +2,7 @@
     --ingredient-input-width: 400px;
 }
 
-.pantry-list-section {
+.shopping-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,12 +12,12 @@
     background-color: #d1d1d1;
 }
 
-.pantry-search {
+.shopping-search {
     position: relative;
     padding-bottom: 50px;
 }
 
-.pantry-search.pantry-search-border-active:before {
+.shopping-search.shopping-search-border-active:before {
     content: '';
     position: absolute;
     left: 25%;
@@ -42,14 +42,13 @@
     border-radius: 4px 4px 0 0;
 }
 
-/* .ingredient-matches-container, */
 .ingredient-matches {
     height: 150px;
 }
 
 .ingredient-matches.ingredient-matches-exist {
     width: var(--ingredient-input-width);
-    border: 1px #ccc;
+    border: 1px solid #ccc;
     border-radius: 0px;
     overflow: scroll;
 }
@@ -69,60 +68,33 @@
     margin-left: 9px;
 }
 
-.pantry-list {
+.shopping-list {
     width: 410px;
     padding-top: 26px;
 }
 
-.pantry-list .pantry-list-container {
+.shopping-list .shopping-list-container {
     padding-top: 5px;
 }
 
-.pantry-list-container.pantry-list-container-active {
+.shopping-list-container.shopping-list-container-active {
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
 }
 
-.pantry-list .no-ingredients {
+.shopping-list .no-items {
     display: flex;
     justify-content: center;
     font-size: 18px;
 }
 
-.btn-to-filtered-recipes-container {
-    padding-top: 43px;
-}
-
-.btn-to-filtered-recipes-container .btn-to-filtered-recipes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 39px;
-    width: 310px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #000;
-    cursor: pointer;
-    text-decoration: none;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    box-shadow: inset 0 0 0 0 #e3f59c;
-    transition: ease-out 0.3s;
-}
-
-.btn-to-filtered-recipes-container .btn-to-filtered-recipes:hover {
-    color: #000;
-    box-shadow: inset 400px 0 0 0 #e3f59c;
-}
-
 @media only screen and (max-width: 500px) {
-    .pantry-list-section {
+    .shopping-section {
         width: 100%;
         padding: 40px 0;
         border-radius: 0px;
     }
 
-    .pantry-list-section .pantry-search {
+    .shopping-section .shopping-search {
         width: 60%;
     }
 
@@ -131,11 +103,11 @@
         width: 100%;
     }
 
-    .pantry-list {
+    .shopping-list {
         width: 100%;
     }
 
-    .pantry-list .pantry-list-container {
+    .shopping-list .shopping-list-container {
         box-shadow: none;
     }
 }

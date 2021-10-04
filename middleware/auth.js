@@ -1,7 +1,3 @@
-// import jwt from 'jsonwebtoken';
-// import dotenv from 'dotenv';
-// dotenv.config();
-
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,11 +11,7 @@ function auth(req, res, next) {
     }
 
     try {
-        // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Take user id from token and put it in req.user, so whenever the
-        // token is sent, we have the user stored in req value
 
         // Add user from payload
         req.user = decoded;
@@ -29,5 +21,4 @@ function auth(req, res, next) {
     }
 }
 
-// export default auth;
 module.exports = auth;
