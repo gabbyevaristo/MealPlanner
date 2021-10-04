@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserContext } from '../../../App';
+import { UserContext } from '../../App';
 import GeneralSearchBox from './GeneralSearchBox';
 import PopularRecipes from './PopularRecipes';
 import './Home.css';

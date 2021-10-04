@@ -1,14 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
-import Home from './Home/Home/Home';
-import GeneralSearch from './Home/Home/GeneralSearch';
-import Pantry from './Home/Pantry/Pantry';
-import SavedRecipes from './Home/SavedRecipes';
-import Shopping from './Home/Shopping/Shopping';
-import FilteredRecipes from './Home/Recipe/FilteredRecipes';
-import RecipePage from './Home/Recipe/RecipePage';
-import Registration from './Home/Registration';
-import RouteNotFound from './BasicComponents/RouteNotFound';
-import Footer from './BasicComponents/Footer';
+import { Home, GeneralSearch } from './Home';
+import { Pantry } from './Pantry';
+import { FilteredRecipes, RecipePage, SavedRecipes } from './Recipe';
+import { Shopping } from './Shopping';
+import { Footer, Registration, RouteNotFound } from './BasicComponents';
 
 const AuthenticatedRoute = () => {
     return (

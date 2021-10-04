@@ -17,6 +17,7 @@ const SignIn = ({ handleSignIn }) => {
         setPassword(e.target.value);
     };
 
+    // Authenticate user in the backend
     const fetchLogin = async () => {
         const res = await fetch(`/users/loginUser`, {
             method: 'POST',

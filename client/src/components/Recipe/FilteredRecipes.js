@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../App';
+import { UserContext } from '../../App';
 import RecipeCard from './RecipeCard';
-import Pagination from '../Pagination';
+import { Pagination } from '../BasicComponents';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './FilteredRecipes.css';
 
@@ -27,6 +27,7 @@ const FilteredRecipes = () => {
         try {
             const loadFilteredRecipes = async () => {
                 setLoading(true);
+
                 const res = await fetch(`/recipe/findByIngredients`, {
                     method: 'POST',
                     headers: {
@@ -34,6 +35,7 @@ const FilteredRecipes = () => {
                     },
                     body: JSON.stringify({ ingredients, amount: 18 }),
                 });
+
                 const data = await res.json();
                 setFilteredRecipes(data);
                 setLoading(false);

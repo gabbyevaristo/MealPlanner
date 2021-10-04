@@ -1,14 +1,13 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IngredientContext, UserContext } from '../../../App';
-import PantryListItem from './PantryListItem';
-import './PantryList.css';
+import { IngredientContext, UserContext } from '../../App';
+import ShoppingListItem from './ShoppingListItem';
+import './ShoppingList.css';
 
 toast.configure();
 
-const PantryList = () => {
+const ShoppingList = () => {
     const ingredients = useContext(IngredientContext);
     const { user, setUser } = useContext(UserContext);
     const wrapperRef = useRef(null);
@@ -16,11 +15,13 @@ const PantryList = () => {
     const [ingredientInput, setIngredientInput] = useState('');
     const [ingredientMatch, setIngredientMatch] = useState([]);
     const [areMatchesOpen, setAreMatchesOpen] = useState(false);
-    const [checkedPantryItems, setCheckedPantryItems] = useState([]);
-    const [pantry, setPantry] = useState(user.userData.ownedIngredients);
+    const [shoppingList, setShoppingList] = useState(
+        user.userData.shoppingList
+    );
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+
         return () =>
             document.removeEventListener('mousedown', handleClickOutside);
     }, []);
@@ -51,11 +52,13 @@ const PantryList = () => {
         }
     };
 
+    // Get ingredients that match the prefix of the input
     const searchIngredients = (ingredientName) => {
         if (!ingredientName) {
             setIngredientMatch([]);
             return;
         }
+
         const matches = ingredients.filter((ingredient) => {
             RegExp.quote = (str) => {
                 return str.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
@@ -63,6 +66,7 @@ const PantryList = () => {
             const regex = new RegExp(RegExp.quote(`${ingredientName}`), 'gi');
             return ingredient.match(regex);
         });
+
         setIngredientMatch(matches);
     };
 
@@ -70,6 +74,76 @@ const PantryList = () => {
         setAreMatchesOpen(true);
         setIngredientInput(e.target.value);
         searchIngredients(e.target.value);
+    };
+
+    const addShoppingItemToDb = async (item) => {
+        try {
+            await fetch(`/users/addShoppingList`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ item }),
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handleAddShoppingItem = async (item) => {
+        if (!shoppingList.includes(item)) {
+            setShoppingList([...shoppingList, item]);
+            notifySuccess(`${item} added to shopping list`);
+
+            // Modify shopping list on local storage
+            const localUser = JSON.parse(localStorage.getItem('user'));
+            localUser.userData.shoppingList.push(item);
+            localStorage.setItem('user', JSON.stringify(localUser));
+            setUser(localUser);
+
+            await addShoppingItemToDb(item);
+        } else {
+            notifyError(`${item} already in shopping list`);
+        }
+
+        setIngredientInput('');
+        setIngredientMatch([]);
+        setAreMatchesOpen(false);
+    };
+
+    const removeShoppingItemFromDb = async (item) => {
+        try {
+            await fetch(`/users/deleteShoppingList`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': user.token,
+                },
+                body: JSON.stringify({ item }),
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handleRemoveShoppingItem = async (item) => {
+        const items = shoppingList.filter(
+            (shoppingListItem) => shoppingListItem !== item
+        );
+        setShoppingList(items);
+        notifyError(`${item} deleted from shopping list`);
+
+        // Modify shopping list on local storage
+        const localUser = JSON.parse(localStorage.getItem('user'));
+        localUser.userData.shoppingList =
+            localUser.userData.shoppingList.filter(
+                (shoppingListItem) => shoppingListItem !== item
+            );
+        localStorage.setItem('user', JSON.stringify(localUser));
+        setUser(localUser);
+
+        await removeShoppingItemFromDb(item);
     };
 
     const addPantryItemToDb = async (ingredient) => {
@@ -88,69 +162,31 @@ const PantryList = () => {
     };
 
     const handleAddPantryItem = async (item) => {
-        if (!pantry.includes(item)) {
-            setPantry([...pantry, item]);
-            notifySuccess(`${item} added to pantry`);
+        if (!user.userData.ownedIngredients.includes(item)) {
+            // Modify pantry list on local storage
             const localUser = JSON.parse(localStorage.getItem('user'));
             localUser.userData.ownedIngredients.push(item);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
+
             await addPantryItemToDb(item);
-        } else {
-            notifyError(`${item} already in pantry`);
         }
+
+        await handleRemoveShoppingItem(item);
+        notifySuccess(`${item} added to pantry`);
+
         setIngredientInput('');
         setIngredientMatch([]);
         setAreMatchesOpen(false);
     };
 
-    const removePantryItemFromDb = async (ingredient) => {
-        try {
-            await fetch(`/users/deleteIngredient`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': user.token,
-                },
-                body: JSON.stringify({ ingredient }),
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const handleRemovePantryItem = async (item) => {
-        const items = pantry.filter((pantryItem) => pantryItem !== item);
-        setPantry(items);
-        notifyError(`${item} deleted from pantry`);
-        const localUser = JSON.parse(localStorage.getItem('user'));
-        localUser.userData.ownedIngredients =
-            localUser.userData.ownedIngredients.filter(
-                (pantryItem) => pantryItem !== item
-            );
-        localStorage.setItem('user', JSON.stringify(localUser));
-        setUser(localUser);
-        await removePantryItemFromDb(item);
-    };
-
-    const handleCheckedPantryItem = (item) => {
-        if (checkedPantryItems.includes(item)) {
-            const items = checkedPantryItems.filter(
-                (pantryItem) => pantryItem !== item
-            );
-            setCheckedPantryItems(items);
-        } else {
-            setCheckedPantryItems([...checkedPantryItems, item]);
-        }
-    };
-
     return (
-        <div className="pantry-list-section">
-            <ToastContainer limit={1} icon={false} />
+        <div className="shopping-section">
+            <ToastContainer limit={2} icon={false} />
             <div
-                className={`pantry-search ${
-                    pantry && pantry.length !== 0
-                        ? 'pantry-search-border-active'
+                className={`shopping-search ${
+                    shoppingList && shoppingList.length !== 0
+                        ? 'shopping-search-border-active'
                         : ''
                 }`}
                 ref={wrapperRef}
@@ -168,7 +204,7 @@ const PantryList = () => {
                         value={ingredientInput}
                         onClick={handleInputClick}
                         onChange={handleIngredientInputChange}
-                        placeholder="Add ingredient from pantry"
+                        placeholder="Add item to shopping list"
                         required
                     />
                 </div>
@@ -186,9 +222,8 @@ const PantryList = () => {
                                     <div
                                         className="ingredient-match"
                                         onClick={() =>
-                                            handleAddPantryItem(ingredient)
+                                            handleAddShoppingItem(ingredient)
                                         }
-                                        title="Add to pantry"
                                         key={index}
                                     >
                                         <span className="ingredient-match-name">
@@ -200,38 +235,28 @@ const PantryList = () => {
                     )}
                 </div>
             </div>
-            {checkedPantryItems.length !== 0 && (
-                <div className="btn-to-filtered-recipes-container">
-                    <Link
-                        to={`/home/filtered-recipes/${checkedPantryItems.join()}`}
-                        className="btn-to-filtered-recipes"
-                    >
-                        Find Recipes With Selected Ingredients
-                    </Link>
-                </div>
-            )}
-            <div className="pantry-list">
+            <div className="shopping-list">
                 <div
-                    className={`pantry-list-container ${
-                        pantry && pantry.length !== 0
-                            ? 'pantry-list-container-active'
+                    className={`shopping-list-container ${
+                        shoppingList && shoppingList.length !== 0
+                            ? 'shopping-list-container-active'
                             : ''
                     }`}
                 >
-                    {pantry && pantry.length !== 0 ? (
-                        pantry.map((item, index) => (
-                            <PantryListItem
+                    {shoppingList && shoppingList.length !== 0 ? (
+                        shoppingList.map((item, index) => (
+                            <ShoppingListItem
                                 item={item}
                                 key={index}
-                                handleRemovePantryItem={handleRemovePantryItem}
-                                handleCheckedPantryItem={
-                                    handleCheckedPantryItem
+                                handleRemoveShoppingItem={
+                                    handleRemoveShoppingItem
                                 }
+                                handleAddPantryItem={handleAddPantryItem}
                             />
                         ))
                     ) : (
-                        <div className="no-ingredients">
-                            No ingredients in pantry
+                        <div className="no-items">
+                            No items in shopping list
                         </div>
                     )}
                 </div>
@@ -240,4 +265,4 @@ const PantryList = () => {
     );
 };
 
-export default PantryList;
+export default ShoppingList;

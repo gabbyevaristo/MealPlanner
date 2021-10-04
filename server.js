@@ -1,14 +1,3 @@
-// import express from 'express';
-// import path from 'path';
-// import mongoose from 'mongoose';
-// import cors from 'cors';
-// import dotenv from 'dotenv';
-// dotenv.config();
-// import { dirname } from 'path';
-// import { fileURLToPath } from 'url';
-
-// import usersRoutes from './routes/usersRoutes.js';
-// import recipeRoutes from './routes/recipeRoutes.js';
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 const express = require('express');
@@ -52,7 +41,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-// const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildPath = path.join(__dirname, 'client/build');
 app.use(express.static(buildPath));
 

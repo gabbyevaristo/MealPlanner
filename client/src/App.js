@@ -1,11 +1,8 @@
 import { useState, createContext, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Header from './components/BasicComponents/Header';
-import LandingPage from './components/LandingPage/LandingPage';
-import UnauthenticatedRoute from './components/UnauthenticatedRoute';
-import AuthenticatedRoute from './components/AuthenticatedRoute';
-import About from './components/BasicComponents/About';
-import RouteNotFound from './components/BasicComponents/RouteNotFound';
+import { About, Header, RouteNotFound } from 'components/BasicComponents';
+import { LandingPage } from 'components/LandingPage';
+import { AuthenticatedRoute, UnauthenticatedRoute } from 'components';
 import './App.css';
 
 export const IngredientContext = createContext();
@@ -23,6 +20,7 @@ function App() {
                 const res = await fetch(`/recipe/getAllIngredients`, {
                     method: 'GET',
                 });
+
                 const data = await res.json();
                 setIngredients(data);
             };

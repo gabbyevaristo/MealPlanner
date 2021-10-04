@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../../../App';
+import { UserContext } from '../../App';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -17,16 +17,19 @@ const RecipePage = () => {
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    // Load recipe data
     useEffect(() => {
         const abortCont = new AbortController();
 
         try {
             const loadRecipe = async () => {
                 setLoading(true);
+
                 const res = await fetch(`/recipe/${recipeId}`, {
                     method: 'GET',
                     signal: abortCont.signal,
                 });
+
                 const data = await res.json();
                 setRecipe(data);
                 setLoading(false);
@@ -88,13 +91,18 @@ const RecipePage = () => {
     const handleSavedRecipe = async (recipe) => {
         if (!user.userData.savedRecipes.includes(recipe.id)) {
             notifySuccess(`${recipe.title} saved`);
+
+            // Modify saved recipes on local storage
             const localUser = JSON.parse(localStorage.getItem('user'));
             localUser.userData.savedRecipes.push(recipe.id);
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
+
             await addRecipeToDb(recipe.id);
         } else {
             notifyError(`${recipe.title} unsaved`);
+
+            // Modify saved recipes on local storage
             const localUser = JSON.parse(localStorage.getItem('user'));
             localUser.userData.savedRecipes =
                 localUser.userData.savedRecipes.filter(
@@ -102,6 +110,7 @@ const RecipePage = () => {
                 );
             localStorage.setItem('user', JSON.stringify(localUser));
             setUser(localUser);
+
             await deleteRecipeFromDb(recipe.id);
         }
     };
@@ -122,6 +131,7 @@ const RecipePage = () => {
     };
 
     const handleAddShoppingItems = async (items) => {
+        // Modify shopping list on local storage
         const localUser = JSON.parse(localStorage.getItem('user'));
         for (const item of items) {
             localUser.userData.shoppingList.push(item);
@@ -129,6 +139,7 @@ const RecipePage = () => {
         localStorage.setItem('user', JSON.stringify(localUser));
         console.log(localUser);
         setUser(localUser);
+
         await Promise.all(items.map(async (item) => addShoppingItemToDb(item)));
     };
 
@@ -138,11 +149,15 @@ const RecipePage = () => {
                 ingredient.name.charAt(0).toUpperCase() +
                 ingredient.name.slice(1)
         );
+
+        // An ingredient is missing if it is not in the user's pantry or
+        // shopping list
         const missingIngredients = ingredients.filter(
             (ingredient) =>
                 !user.userData.ownedIngredients.includes(ingredient) &&
                 !user.userData.shoppingList.includes(ingredient)
         );
+
         await handleAddShoppingItems(missingIngredients);
         notifySuccess('Missing ingredients added to shopping list');
     };

@@ -12,12 +12,15 @@ const Header = ({ handleSignOut }) => {
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+
         return () =>
             document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const handleClickOutside = (e) => {
         const { current: wrap } = wrapperRef;
+
+        // Ensures that clicking on the hamburger menu is not an outside click
         if (
             e.target.className === 'btn-dropdown' ||
             e.target.className === 'dropdown-bar' ||
@@ -25,6 +28,7 @@ const Header = ({ handleSignOut }) => {
         ) {
             return;
         }
+
         if (wrap && !wrap.contains(e.target)) {
             setIsMenuOpen(false);
         }
